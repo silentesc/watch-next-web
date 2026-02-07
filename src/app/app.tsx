@@ -4,11 +4,9 @@ import Navbar from "../components/layouts/Navbar";
 function App() {
     return (
         <>
-            <div className="mx-auto text-center">
-                <Navbar />
-                <div className="max-w-300">
-                    <Outlet />
-                </div>
+            <Navbar />
+            <div className="mx-auto max-w-7xl">
+                <Outlet />
             </div>
         </>
     )
