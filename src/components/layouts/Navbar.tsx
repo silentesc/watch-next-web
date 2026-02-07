@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import Logo from "../ui/Logo";
 
 function Navbar() {
@@ -11,12 +11,13 @@ function Navbar() {
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                     <div className="flex items-center">
                         <div className="mr-5">
-                            <Logo />
+                            <Link to="/">
+                                <Logo />
+                            </Link>
                         </div>
 
                         {/* Desktop Nav */}
                         <div className="hidden sm:flex">
-                            <NavLink className="mx-2 text-2xl" to="/" end>Home</NavLink>
                             <NavLink className="mx-2 text-2xl" to="/about">About</NavLink>
                             <NavLink className="mx-2 text-2xl" to="/login">Login</NavLink>
                             <NavLink className="mx-2 text-2xl" to="/register">Register</NavLink>
@@ -36,7 +37,9 @@ function Navbar() {
             <div className={`fixed inset-0 bg-background-secondary z-1000 p-5 transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 <div className="flex justify-between">
                     <div className="mb-10">
-                        <Logo />
+                        <Link onClick={() => setIsMobileMenuOpen(false)} to="/">
+                            <Logo />
+                        </Link>
                     </div>
                     <svg onClick={() => setIsMobileMenuOpen(false)} className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -44,7 +47,6 @@ function Navbar() {
                 </div>
 
                 <div className="flex flex-col">
-                    <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/" end>Home</NavLink>
                     <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/about">About</NavLink>
                     <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/login">Login</NavLink>
                     <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/register">Register</NavLink>
