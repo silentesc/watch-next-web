@@ -18,7 +18,6 @@ function Navbar() {
 
                         {/* Desktop Nav */}
                         <div className="hidden sm:flex">
-                            <NavLink className="mx-2 text-2xl" to="/about">About</NavLink>
                             <NavLink className="mx-2 text-2xl" to="/login">Login</NavLink>
                             <NavLink className="mx-2 text-2xl" to="/register">Register</NavLink>
                         </div>
@@ -47,7 +46,6 @@ function Navbar() {
                 </div>
 
                 <div className="flex flex-col">
-                    <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/about">About</NavLink>
                     <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/login">Login</NavLink>
                     <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/register">Register</NavLink>
                 </div>
