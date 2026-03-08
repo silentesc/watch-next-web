@@ -10,13 +10,23 @@ function Navbar() {
 
     const me = useMe();
 
+    const desktopLinksWhenLoggedIn = (
+        <>
+            <NavLink className="mx-2 text-2xl" to="/discover">Discover</NavLink>
+        </>
+    );
+    const mobileLinksWhenLoggedIn = (
+        <>
+            <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/discover">Discover</NavLink>
+        </>
+    )
+
     const desktopAuthLinks = (
         <>
             <NavLink className="mx-2 text-2xl p-2.5" to="/login">Login</NavLink>
             <NavLink className="mx-2 text-2xl bg-primary rounded-md p-2.5" to="/register">Register</NavLink>
         </>
     );
-
     const mobileAuthLinks = (
         <>
             <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl p-2.5" to="/login">Login</NavLink>
@@ -39,8 +49,13 @@ function Navbar() {
                         <div className="hidden sm:flex w-full items-center">
                             {/* Left */}
                             <div>
-                                <NavLink className="mx-2 text-2xl" to="/browse">Browse</NavLink>
-                                <NavLink className="mx-2 text-2xl" to="/search">Search</NavLink>
+                                {
+                                    me.isEnabled && me.isSuccess ? (
+                                        desktopLinksWhenLoggedIn
+                                    ) : (
+                                        <></>
+                                    )
+                                }
                             </div>
                             {/* Right */}
                             <div className="ml-auto">
@@ -89,8 +104,13 @@ function Navbar() {
 
                 {/* Links (top) */}
                 <div className="flex flex-col">
-                    <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/browse">Browse</NavLink>
-                    <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/search">Search</NavLink>
+                    {
+                        me.isEnabled && me.isSuccess ? (
+                            mobileLinksWhenLoggedIn
+                        ) : (
+                            <></>
+                        )
+                    }
                 </div>
 
                 {/* Link (bottom) */}
