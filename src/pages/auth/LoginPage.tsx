@@ -7,6 +7,7 @@ import Loading from "../../components/ui/Loading";
 import Info from "../../components/ui/Info";
 import Error from "../../components/ui/Error";
 import { useNavigate } from "react-router";
+import InputPassword from "../../components/ui/InputPassword";
 
 function LoginPage() {
     const [username, setUsername] = useState("");
@@ -40,7 +41,7 @@ function LoginPage() {
                     </div>
                     <div className="mb-5">
                         <p className="text-lg">Password</p>
-                        <InputText onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" />
+                        <InputPassword onChange={e => setPassword(e.target.value)} placeholder="Password" />
                     </div>
                     <div>
                         <Button value="Login" type="submit" />

@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import Error from "../../components/ui/Error";
 import Loading from "../../components/ui/Loading";
 import Info from "../../components/ui/Info";
+import InputPassword from "../../components/ui/InputPassword";
 
 function RegisterPage() {
     const [username, setUsername] = useState("");
@@ -69,7 +70,7 @@ function RegisterPage() {
                     </div>
                     <div className="mb-5">
                         <p className="text-lg">Password</p>
-                        <InputText onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" />
+                        <InputPassword onChange={e => setPassword(e.target.value)} placeholder="Password" />
                         <p className="text-error">{passwordError}</p>
                     </div>
                     <div className="mb-5">
