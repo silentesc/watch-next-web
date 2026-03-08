@@ -1,5 +1,5 @@
-interface ButtonProps extends React.ButtonHTMLAttributes <HTMLButtonElement> {
-    value: string;
+interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value'> {
+    value: string | React.ReactElement;
     type?: "button" | "submit" | "reset";
     onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
