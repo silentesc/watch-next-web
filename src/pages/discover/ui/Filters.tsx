@@ -84,14 +84,21 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
     };
 
     return (
-        <div className={`fixed inset-0 flex bg-background-secondary/50 bg- z-1000 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        <div className={`fixed inset-0 flex justify-end z-1000 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
 
-            {/* Empty page content (seethrough) */}
-            <div className="w-full" onClick={() => onClose()}>
+            <div onClick={() => onClose()} className="absolute w-full h-full bg-background-secondary/50">
             </div>
 
             {/* Filters */}
-            <div className={`m-2 p-5 min-w-70 max-w-100 bg-background-primary flex flex-col gap-6 transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'} overflow-scroll`}>
+            <div className={`m-2 p-5 bg-background-primary flex flex-col gap-6 overflow-scroll transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                <div className="flex">
+                    <div className="m-auto">
+                    </div>
+                    {/* x button */}
+                    <svg onClick={() => onClose()} className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
                 <Button value="Apply Filters" onClick={applyFilters} />
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Release Date</span>
