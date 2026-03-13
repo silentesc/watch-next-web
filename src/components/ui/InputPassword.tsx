@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-interface InputTextProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     placeholder?: string;
     required?: boolean;
     onChange?: (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => void;
 }
 
-function InputPassword({ placeholder = "", required = false, onChange = () => { }, ...props }: InputTextProps) {
+function InputPassword({ placeholder = "", required = false, onChange = () => { }, ...props }: InputProps) {
     const [inputType, setInputType] = useState("password");
 
     return (

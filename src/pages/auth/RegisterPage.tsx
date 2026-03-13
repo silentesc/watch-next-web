@@ -1,5 +1,5 @@
 import { useState } from "react";
-import InputText from "../../components/ui/InputText";
+import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import { register } from "../../api/auth";
 import { useMutation } from "@tanstack/react-query";
@@ -65,7 +65,7 @@ function RegisterPage() {
                 <div className="w-120 p-7 bg-background-primary shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)]">
                     <div className="mb-5">
                         <p className="text-lg">Username</p>
-                        <InputText onChange={e => setUsername(e.target.value)} type="text" placeholder="Username" autoFocus />
+                        <Input onChange={e => setUsername(e.target.value)} type="text" placeholder="Username" autoFocus />
                         <p className="text-error">{usernameError}</p>
                     </div>
                     <div className="mb-5">
@@ -75,7 +75,7 @@ function RegisterPage() {
                     </div>
                     <div className="mb-5">
                         <p className="text-lg">Confirm Password</p>
-                        <InputText onChange={e => setConfirmPassword(e.target.value)} type="password" placeholder="Password" />
+                        <Input onChange={e => setConfirmPassword(e.target.value)} type="password" placeholder="Password" />
                         <p className="text-error">{confirmPasswordError}</p>
                     </div>
                     <div>

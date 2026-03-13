@@ -13,11 +13,13 @@ function Navbar() {
     const desktopLinksWhenLoggedIn = (
         <>
             <NavLink className="mx-2 text-2xl" to="/discover">Discover</NavLink>
+            <NavLink className="mx-2 text-2xl" to="/search">Search</NavLink>
         </>
     );
     const mobileLinksWhenLoggedIn = (
         <>
             <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/discover">Discover</NavLink>
+            <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/search">Search</NavLink>
         </>
     )
 

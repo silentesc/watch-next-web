@@ -1,11 +1,11 @@
-interface InputTextProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    type?: "date" | "datetime-local" | "time" | "email" | "number" | "password" | "search" | "tel" | "text" | "url";
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    type?: "date" | "datetime-local" | "time" | "email" | "number" | "password" | "search" | "tel" | "text" | "url" | "number";
     placeholder?: string;
     required?: boolean;
     onChange?: (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => void;
 }
 
-function InputText({ type = "text", placeholder = "", required = false, onChange = () => { }, ...props }: InputTextProps) {
+function Input({ type = "text", placeholder = "", required = false, onChange = () => { }, ...props }: InputProps) {
     return (
         <>
             <input
@@ -21,4 +21,4 @@ function InputText({ type = "text", placeholder = "", required = false, onChange
     )
 }
 
-export default InputText;
+export default Input;

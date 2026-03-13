@@ -1,0 +1,77 @@
+import { useState, useRef, useEffect } from "react";
+import Button from "./Button";
+
+interface DropdownProps {
+    title: string,
+    values: Map<string, string>,
+    onSelect: (value: string) => void,
+}
+
+export function Dropdown({ title, values, onSelect }: DropdownProps) {
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
+
+    const onValueElementClick = (value: string) => {
+        onSelect(value);
+        setIsOpen(false);
+    }
+
+    const valueElements = Array.from(values.entries()).map(([key, value]) =>
+        <p key={key} className="block w-full px-4 py-2 text-md text-left transition-colors cursor-pointer hover:bg-background-tertiary" onClick={() => onValueElementClick(value)}>{value}</p>
+    );
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen]);
+
+    return (
+        <div className="relative inline-block text-left" ref={dropdownRef}>
+            {/* Trigger Button */}
+            <div>
+                <Button
+                    value={
+                        (
+                            <>
+                                <div className="flex justify-between items-center">
+                                    <span className="whitespace-nowrap">{title}</span>
+                                    <svg className="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                            </>
+                        )
+                    }
+                    onClick={toggleDropdown}
+                />
+            </div>
+
+            {/* Dropdown Menu */}
+            {
+                isOpen && (
+                    <div className="z-1000 absolute w-56 mt-2 origin-top-right bg-background-secondary border border-background-tertiary divide-y divide-background-tertiary rounded-md shadow-lg outline-none">
+                        <>
+                            {valueElements}
+                        </>
+                    </div>
+                )
+            }
+        </div >
+    );
+}
