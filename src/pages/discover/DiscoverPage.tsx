@@ -1,9 +1,19 @@
 import { useState } from "react";
 import Button from "../../components/ui/Button";
 import { Filters } from "./ui/Filters";
-import { SortBy } from "./ui/SortBy";
+import { SortBy } from "../../components/ui/SortBy";
 
 export function DiscoverPage() {
+    const sortByValues = new Map([
+        ["popularity", "Popularity"],
+        ["revenue", "Revenue"],
+        ["primary_release_date", "Release Date"],
+        ["vote_average", "Vote Average"],
+        ["vote_count", "Vote Count"],
+        ["original_title", "Original Title"],
+        ["title", "Title"],
+    ]);
+
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
     const onFiltersChange = (filters: Filters) => {
@@ -23,7 +33,7 @@ export function DiscoverPage() {
                     <span className="text-4xl">Discover</span>
                 </div>
                 <div className="flex gap-2 mt-1 sm:mt-0">
-                    <SortBy onChange={onSortByChange} />
+                    <SortBy sortByValues={sortByValues} onChange={onSortByChange} />
                     <Button value="Filters" onClick={() => setIsFiltersOpen(!isFiltersOpen)} />
                 </div>
             </div>

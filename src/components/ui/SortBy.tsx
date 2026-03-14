@@ -1,25 +1,16 @@
 import { useEffect, useState } from "react";
-import { Dropdown } from "../../../components/ui/Dropdown";
-import Button from "../../../components/ui/Button";
+import Button from "./Button";
+import { Dropdown } from "./Dropdown";
 
 interface SortByProps {
+    sortByValues: Map<string, string>;
     onChange: (sortBy: string) => void;
 }
 
-export function SortBy({ onChange }: SortByProps) {
+export function SortBy({ sortByValues, onChange }: SortByProps) {
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-    const sortByValues = new Map([
-        ["popularity", "Popularity"],
-        ["revenue", "Revenue"],
-        ["primary_release_date", "Release Date"],
-        ["vote_average", "Vote Average"],
-        ["vote_count", "Vote Count"],
-        ["original_title", "Original Title"],
-        ["title", "Title"],
-    ]);
-
-    const [sortBy, setSortBy] = useState("popularity");
+    const [sortBy, setSortBy] = useState(Array.from(sortByValues.keys())[0]);
     const [isAsc, setIsAsc] = useState(false);
 
     useEffect(() => {
