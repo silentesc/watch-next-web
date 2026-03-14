@@ -34,7 +34,7 @@ export function Movies({ searchText }: MoviesProps) {
             {isLoading && <Loading />}
 
             {/* Content */}
-            <div className="grid gap-5 grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] justify-items-center">
+            <div className="grid gap-5 grid-cols-[repeat(auto-fill,minmax(9rem,2fr))] justify-items-center">
                 {moviesElements}
             </div>
         </>

@@ -6,7 +6,7 @@ interface MovieProps {
 
 export function Movie({ movie }: MovieProps) {
     return (
-        <div className="min-w-40 max-w-60 bg-background-primary shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)] border border-background-tertiary rounded-md">
+        <div className="min-w-35 max-w-45 bg-background-primary shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)] border border-background-tertiary rounded-md">
             <div className="aspect-2/3">
                 {
                     movie.poster_path ? (
