@@ -5,7 +5,7 @@ function App() {
     return (
         <>
             <Navbar />
-            <div className="mx-auto max-w-7xl">
+            <div className="mx-auto max-w-7xl p-2">
                 <Outlet />
             </div>
         </>

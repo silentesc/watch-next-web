@@ -38,7 +38,7 @@ function Navbar() {
 
     return (
         <>
-            <nav className="mb-3 p-4 bg-background-primary">
+            <nav className="p-4 bg-background-primary">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                     <div className="flex items-center w-full">
                         <div className="mr-5">
