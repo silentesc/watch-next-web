@@ -2,12 +2,13 @@ import { useState, useRef, useEffect } from "react";
 import Button from "./Button";
 
 interface DropdownProps {
-    title: string,
-    values: Map<string, string>,
-    onSelect: (value: string) => void,
+    title: string;
+    values: Map<string, string>;
+    onSelect: (value: string) => void;
+    alignedRight?: boolean;
 }
 
-export function Dropdown({ title, values, onSelect }: DropdownProps) {
+export function Dropdown({ title, values, onSelect, alignedRight = false }: DropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -65,7 +66,7 @@ export function Dropdown({ title, values, onSelect }: DropdownProps) {
             {/* Dropdown Menu */}
             {
                 isOpen && (
-                    <div className="z-1000 absolute w-56 mt-2 origin-top-right bg-background-secondary border border-background-tertiary divide-y divide-background-tertiary rounded-md shadow-lg outline-none">
+                    <div className={`${alignedRight && "right-0"} z-1000 absolute w-56 mt-2 origin-top-right bg-background-secondary border border-background-tertiary divide-y divide-background-tertiary rounded-md shadow-lg outline-none`}>
                         <>
                             {valueElements}
                         </>

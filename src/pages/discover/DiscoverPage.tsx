@@ -33,7 +33,7 @@ export function DiscoverPage() {
                     <span className="text-4xl">Discover</span>
                 </div>
                 <div className="flex gap-2 mt-1 sm:mt-0">
-                    <SortBy sortByValues={sortByValues} onChange={onSortByChange} />
+                    <SortBy sortByValues={sortByValues} onChange={onSortByChange} alignedRight />
                     <Button value="Filters" onClick={() => setIsFiltersOpen(!isFiltersOpen)} />
                 </div>
             </div>

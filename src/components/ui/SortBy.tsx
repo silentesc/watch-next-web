@@ -5,9 +5,10 @@ import { Dropdown } from "./Dropdown";
 interface SortByProps {
     sortByValues: Map<string, string>;
     onChange: (sortBy: string) => void;
+    alignedRight?: boolean;
 }
 
-export function SortBy({ sortByValues, onChange }: SortByProps) {
+export function SortBy({ sortByValues, onChange, alignedRight = false }: SortByProps) {
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     const [sortBy, setSortBy] = useState(Array.from(sortByValues.keys())[0]);
@@ -37,7 +38,7 @@ export function SortBy({ sortByValues, onChange }: SortByProps) {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v14m0 0l-4-4m4 4l4-4" />
                 </svg>
             } />
-            <Dropdown title={sortByValues.get(sortBy) || sortBy} values={sortByValues} onSelect={value => setSortBy(value)} />
+            <Dropdown title={sortByValues.get(sortBy) || sortBy} values={sortByValues} onSelect={value => setSortBy(value)} alignedRight={alignedRight} />
         </div>
     );
 }
