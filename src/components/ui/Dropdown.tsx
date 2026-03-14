@@ -15,13 +15,13 @@ export function Dropdown({ title, values, onSelect }: DropdownProps) {
         setIsOpen(!isOpen);
     };
 
-    const onValueElementClick = (value: string) => {
-        onSelect(value);
+    const onValueElementClick = (key: string) => {
+        onSelect(key);
         setIsOpen(false);
     }
 
     const valueElements = Array.from(values.entries()).map(([key, value]) =>
-        <p key={key} className="block w-full px-4 py-2 text-md text-left transition-colors cursor-pointer hover:bg-background-tertiary" onClick={() => onValueElementClick(value)}>{value}</p>
+        <p key={key} className="block w-full px-4 py-2 text-md text-left transition-colors cursor-pointer hover:bg-background-tertiary" onClick={() => onValueElementClick(key)}>{value}</p>
     );
 
     // Close dropdown when clicking outside

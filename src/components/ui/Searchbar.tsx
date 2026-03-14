@@ -9,10 +9,8 @@ interface SearchbarProps {
 }
 
 export function Searchbar({ categories, onSearch }: SearchbarProps) {
-    const firstCategoryKey = Array.from(categories.keys())[0];
-
     const [searchText, setSearchText] = useState("");
-    const [searchCategory, setSearchCategory] = useState(categories.get(firstCategoryKey) || firstCategoryKey);
+    const [searchCategory, setSearchCategory] = useState(Array.from(categories.keys())[0]);
 
     const onSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -26,7 +24,7 @@ export function Searchbar({ categories, onSearch }: SearchbarProps) {
         <form onSubmit={onSubmit}>
             <div className="sm:flex sm:gap-1">
                 <div className="flex gap-1 w-full">
-                    <Dropdown title={searchCategory} values={categories} onSelect={value => setSearchCategory(value)} />
+                    <Dropdown title={categories.get(searchCategory) || searchCategory} values={categories} onSelect={value => setSearchCategory(value)} />
                     <Input type="text" placeholder="Search" onChange={e => setSearchText(e.target.value)} />
                 </div>
                 <div className="sm:w-35 mt-1 sm:mt-0">
