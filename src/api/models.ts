@@ -8,7 +8,7 @@ export interface Movie {
     original_title: string;
     overview: string;
     popularity: number;
-    release_date: string;
+    release_date: Date;
     title: string;
     video: boolean;
     vote_average: number;

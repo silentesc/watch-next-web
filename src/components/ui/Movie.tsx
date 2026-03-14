@@ -24,7 +24,7 @@ export function Movie({ movie }: MovieProps) {
                         ? movie.original_title.substring(0, 30) + '...'
                         : movie.original_title}
                 </span>
-                <span title={movie.release_date} className="opacity-75">{movie.release_date.split("-")[0]}</span>
+                <span title={movie.release_date.toString()} className="opacity-75">{movie.release_date.toString().split("-")[0]}</span>
             </div>
         </div>
     );
