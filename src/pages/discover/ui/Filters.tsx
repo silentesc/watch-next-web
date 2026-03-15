@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
+import { DatePicker } from "../../../components/ui/DatePicker";
 
 export interface Filters {
     releaseDateFrom: Date | undefined,
@@ -103,14 +104,14 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
                 <Button value="Apply Filters" onClick={applyFilters} />
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Release Date</span>
-                    <div className="flex gap-1">
+                    <div className="relative flex gap-1">
                         <div className="flex flex-col">
                             From
-                            <Input type="date" placeholder="YYYY-MM-DD" onChange={e => setReleaseDateFrom(e.target.valueAsDate || undefined)} />
+                            <DatePicker placeholder="YYYY-MM-DD" onChange={date => setReleaseDateFrom(date)} handleRelative={false} topClassName="top-18" />
                         </div>
                         <div className="flex flex-col">
                             To
-                            <Input type="date" placeholder="YYYY-MM-DD" onChange={e => setReleaseDateTo(e.target.valueAsDate || undefined)} />
+                            <DatePicker placeholder="YYYY-MM-DD" onChange={date => setReleaseDateTo(date)} alignedRight handleRelative={false} topClassName="top-18" />
                         </div>
                     </div>
                 </div>
