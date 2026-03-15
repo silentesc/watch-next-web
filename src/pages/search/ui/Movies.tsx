@@ -12,6 +12,7 @@ interface MoviesProps {
 
 export function Movies({ searchText }: MoviesProps) {
     const sortByValues = new Map([
+        ["relevance", "Relevance"],
         ["popularity", "Popularity"],
         ["release_date", "Release Date"],
         ["original_title", "Original Title"],
@@ -56,13 +57,21 @@ export function Movies({ searchText }: MoviesProps) {
         const isAsc = (sortByOverride ? sortByOverride : currentSortBy).endsWith(".asc");
 
         switch (sortByKey) {
+            case "relevance":
+                if (isAsc) {
+                    setMoviesElements(([...data.results].map((movie) => <Movie key={movie.id} movie={movie} />)));
+                }
+                else {
+                    setMoviesElements(([...data.results].reverse().map((movie) => <Movie key={movie.id} movie={movie} />)));
+                }
+                break;
             case "popularity":
-                setMoviesElements((data.results.sort((a, b) => {
+                setMoviesElements(([...data.results].sort((a, b) => {
                     return isAsc ? a.popularity - b.popularity : b.popularity - a.popularity;
-                }).map((movie) => <Movie key={movie.id} movie={movie} />)))
+                }).map((movie) => <Movie key={movie.id} movie={movie} />)));
                 break;
             case "release_date":
-                setMoviesElements((data.results.sort((a, b) => {
+                setMoviesElements(([...data.results].sort((a, b) => {
                     if (a.release_date === b.release_date) {
                         return 0;
                     }
@@ -70,7 +79,7 @@ export function Movies({ searchText }: MoviesProps) {
                 }).map((movie) => <Movie key={movie.id} movie={movie} />)));
                 break;
             case "original_title":
-                setMoviesElements((data.results.sort((a, b) => {
+                setMoviesElements(([...data.results].sort((a, b) => {
                     if (a.original_title === b.original_title) {
                         return 0;
                     }
@@ -78,14 +87,17 @@ export function Movies({ searchText }: MoviesProps) {
                 }).map((movie) => <Movie key={movie.id} movie={movie} />)));
                 break;
             case "vote_average":
-                setMoviesElements((data.results.sort((a, b) => {
+                setMoviesElements(([...data.results].sort((a, b) => {
                     return isAsc ? a.vote_average - b.vote_average : b.vote_average - a.vote_average;
-                }).map((movie) => <Movie key={movie.id} movie={movie} />)))
+                }).map((movie) => <Movie key={movie.id} movie={movie} />)));
                 break;
             case "vote_count":
-                setMoviesElements((data.results.sort((a, b) => {
+                setMoviesElements(([...data.results].sort((a, b) => {
                     return isAsc ? a.vote_count - b.vote_count : b.vote_count - a.vote_count;
-                }).map((movie) => <Movie key={movie.id} movie={movie} />)))
+                }).map((movie) => <Movie key={movie.id} movie={movie} />)));
+                break;
+            default:
+                setMoviesElements(([...data.results].map((movie) => <Movie key={movie.id} movie={movie} />)));
                 break;
         }
     };

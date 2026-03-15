@@ -6,13 +6,14 @@ interface SortByProps {
     sortByValues: Map<string, string>;
     onChange: (sortBy: string) => void;
     alignedRight?: boolean;
+    descDefault?: boolean;
 }
 
-export function SortBy({ sortByValues, onChange, alignedRight = false }: SortByProps) {
+export function SortBy({ sortByValues, onChange, alignedRight = false, descDefault = false }: SortByProps) {
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     const [sortBy, setSortBy] = useState(Array.from(sortByValues.keys())[0]);
-    const [isAsc, setIsAsc] = useState(false);
+    const [isAsc, setIsAsc] = useState(!descDefault);
 
     useEffect(() => {
         if (isInitialLoad) {
