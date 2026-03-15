@@ -13,7 +13,6 @@ export function DiscoverMoviePage() {
         ["primary_release_date", "Release Date"],
         ["vote_average", "Vote Average"],
         ["vote_count", "Vote Count"],
-        ["original_title", "Original Title"],
         ["title", "Title"],
     ]);
 
