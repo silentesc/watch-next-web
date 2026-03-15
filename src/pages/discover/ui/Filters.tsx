@@ -63,7 +63,6 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
     }, [isOpen]);
 
     const applyFilters = () => {
-        console.log(releaseDateTo, typeof releaseDateTo);
         const filters: Filters = {
             releaseDateFrom,
             releaseDateTo,
