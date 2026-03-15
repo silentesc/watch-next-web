@@ -1,6 +1,8 @@
 import { Searchbar } from "../../components/ui/Searchbar";
 import { useState } from "react";
-import { Movies } from "./ui/Movies";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { search_movie } from "../../api/search/movie";
+import { MovieList } from "../../components/ui/MovieList";
 
 export function SearchPage() {
     const values = new Map([
@@ -13,6 +15,14 @@ export function SearchPage() {
     const [searchCategory, setSearchCategory] = useState(Array.from(values.keys())[0])
     const [searchText, setSearchText] = useState("");
 
+    const searchMovieInfiniteQuery = useInfiniteQuery({
+        queryKey: ["searchMovie", searchText],
+        queryFn: ({ pageParam }) => search_movie(searchText, pageParam),
+        initialPageParam: 1,
+        getNextPageParam: (lastPage) => lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+        enabled: !!searchText,
+    });
+
     const onSearch = (searchCategory: string, searchText: string) => {
         setSearchCategory(searchCategory)
         setSearchText(searchText);
@@ -23,7 +33,7 @@ export function SearchPage() {
 
         switch (searchCategory) {
             case "all": return <p>Not implemented yet</p>;
-            case "movies": return <Movies searchText={searchText} />;
+            case "movies": return <MovieList infiniteQuery={searchMovieInfiniteQuery} />;
             case "tv_shows": return <p>Not implemented yet</p>;
             case "people": return <p>Not implemented yet</p>;
             default: return <span className="text-2xl">Category {searchCategory} not found</span>;
