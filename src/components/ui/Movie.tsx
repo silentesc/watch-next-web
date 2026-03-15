@@ -6,7 +6,13 @@ interface MovieProps {
 
 export function Movie({ movie }: MovieProps) {
     return (
-        <div className="min-w-35 max-w-45 bg-background-primary shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)] border border-background-tertiary rounded-md">
+        <div className="relative min-w-35 max-w-45 bg-background-primary shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)] border border-background-tertiary rounded-md">
+            {/* Label */}
+            <div className="absolute top-1 left-1 bg-purple-600/80 px-2 py-1 rounded text-xs font-semibold z-10">
+                MOVIE
+            </div>
+
+            {/* Poster */}
             <div className="aspect-2/3">
                 {
                     movie.poster_path ? (
@@ -18,6 +24,8 @@ export function Movie({ movie }: MovieProps) {
                     )
                 }
             </div>
+
+            {/* Info */}
             <div className="flex flex-col text-center p-1">
                 <span title={movie.original_title}>
                     {movie.original_title.length > 30
