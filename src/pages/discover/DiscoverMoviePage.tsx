@@ -42,7 +42,6 @@ export function DiscoverMoviePage() {
     });
 
     const onFiltersChange = (filters: Filters) => {
-        console.log(filters);
         setIsFiltersOpen(false);
         setCurrentFilters(filters);
     };
