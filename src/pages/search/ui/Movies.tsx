@@ -1,124 +1,70 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { search_movie } from "../../../api/search/movie";
 import { Movie } from "../../../components/ui/Movie";
 import Loading from "../../../components/ui/Loading";
 import Error from "../../../components/ui/Error";
-import { SortBy } from "../../../components/ui/SortBy";
-import { useEffect, useState, type JSX } from "react";
+import { useEffect, useRef } from "react";
 
 interface MoviesProps {
     searchText: string;
 }
 
 export function Movies({ searchText }: MoviesProps) {
-    const sortByValues = new Map([
-        ["relevance", "Relevance"],
-        ["popularity", "Popularity"],
-        ["release_date", "Release Date"],
-        ["original_title", "Original Title"],
-        ["vote_average", "Vote Average"],
-        ["vote_count", "Vote Count"],
-    ]);
-
-    const { data, error, isLoading } = useQuery({
+    const {
+        data,
+        error,
+        isLoading,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useInfiniteQuery({
         queryKey: ["searchMovie", searchText],
-        queryFn: () => search_movie(searchText),
-        staleTime: 5 * 60 * 1000, // 5 minutes
-        retry: false,
+        queryFn: ({ pageParam }) => search_movie(searchText, pageParam),
+        initialPageParam: 1,
+        getNextPageParam: (lastPage) =>
+            lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
         enabled: !!searchText,
     });
 
-    const [currentSortBy, setCurrentSortBy] = useState(Array.from(sortByValues.keys())[0]);
-    const [moviesElements, setMoviesElements] = useState<JSX.Element | JSX.Element[]>((<></>));
+    const observerRef = useRef<IntersectionObserver | null>(null);
+    const bottomRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (isLoading) return;
-        if (!data) return;
-        if (error) return;
+        if (observerRef.current) observerRef.current.disconnect();
 
-        loadData();
-    }, [data]);
+        observerRef.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+                fetchNextPage();
+            }
+        }, {
+            // Trigger fetch next before actually hitting bottom
+            rootMargin: "400px"
+        });
 
-    const onSortByChange = (sortBy: string) => {
-        if (isLoading) return;
-        if (!data) return;
-        if (error) return;
+        if (bottomRef.current) observerRef.current.observe(bottomRef.current);
 
-        setCurrentSortBy(sortBy);
-        loadData(sortBy);
-    }
+        return () => observerRef.current?.disconnect();
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-    const loadData = (sortByOverride?: string) => {
-        if (isLoading) return;
-        if (!data) return;
-        if (error) return;
+    const allMovies = data?.pages.flatMap(page => page.results) ?? [];
 
-        const sortByKey = (sortByOverride ? sortByOverride : currentSortBy).split(".")[0];
-        const isAsc = (sortByOverride ? sortByOverride : currentSortBy).endsWith(".asc");
-
-        switch (sortByKey) {
-            case "relevance":
-                if (isAsc) {
-                    setMoviesElements(([...data.results].map((movie) => <Movie key={movie.id} movie={movie} />)));
-                }
-                else {
-                    setMoviesElements(([...data.results].reverse().map((movie) => <Movie key={movie.id} movie={movie} />)));
-                }
-                break;
-            case "popularity":
-                setMoviesElements(([...data.results].sort((a, b) => {
-                    return isAsc ? a.popularity - b.popularity : b.popularity - a.popularity;
-                }).map((movie) => <Movie key={movie.id} movie={movie} />)));
-                break;
-            case "release_date":
-                setMoviesElements(([...data.results].sort((a, b) => {
-                    if (a.release_date === b.release_date) {
-                        return 0;
-                    }
-                    return isAsc ? (a.release_date > b.release_date ? 1 : -1) : a.release_date < b.release_date ? 1 : -1;
-                }).map((movie) => <Movie key={movie.id} movie={movie} />)));
-                break;
-            case "original_title":
-                setMoviesElements(([...data.results].sort((a, b) => {
-                    if (a.original_title === b.original_title) {
-                        return 0;
-                    }
-                    return isAsc ? (a.original_title > b.original_title ? 1 : -1) : a.original_title < b.original_title ? 1 : -1;
-                }).map((movie) => <Movie key={movie.id} movie={movie} />)));
-                break;
-            case "vote_average":
-                setMoviesElements(([...data.results].sort((a, b) => {
-                    return isAsc ? a.vote_average - b.vote_average : b.vote_average - a.vote_average;
-                }).map((movie) => <Movie key={movie.id} movie={movie} />)));
-                break;
-            case "vote_count":
-                setMoviesElements(([...data.results].sort((a, b) => {
-                    return isAsc ? a.vote_count - b.vote_count : b.vote_count - a.vote_count;
-                }).map((movie) => <Movie key={movie.id} movie={movie} />)));
-                break;
-            default:
-                setMoviesElements(([...data.results].map((movie) => <Movie key={movie.id} movie={movie} />)));
-                break;
-        }
-    };
+    if (error) return <Error message={error.message} />;
 
     return (
         <>
-            {/* Bar */}
-            <div className="my-2 flex justify-between">
+            <div className="my-2">
                 <span className="text-2xl">Movies</span>
-                <SortBy sortByValues={sortByValues} onChange={onSortByChange} alignedRight />
             </div>
 
-            {/* Error */}
-            {error && <Error message={error.message} />}
-
-            {/* Loading */}
-            {isLoading && <Loading />}
-
-            {/* Content */}
             <div className="grid gap-5 grid-cols-[repeat(auto-fill,minmax(9rem,2fr))] justify-items-center">
-                {moviesElements}
+                {allMovies.map((movie) => (
+                    <Movie key={movie.id} movie={movie} />
+                ))}
+            </div>
+
+            {/* Target element for the observer */}
+            <div ref={bottomRef} className="h-10 w-full">
+                {(isLoading || isFetchingNextPage) && <Loading />}
             </div>
         </>
     );
