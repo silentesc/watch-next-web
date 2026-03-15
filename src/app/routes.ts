@@ -3,8 +3,9 @@ import App from "./app";
 import HomePage from "../pages/home/HomePage";
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
-import { DiscoverPage } from "../pages/discover/DiscoverPage";
+import { DiscoverMoviePage } from "../pages/discover/DiscoverMoviePage";
 import { SearchPage } from "../pages/search/SearchPage";
+import { DiscoverPage } from "../pages/discover/DiscoverPage";
 
 const router = createBrowserRouter([
     {
@@ -14,7 +15,13 @@ const router = createBrowserRouter([
             { index: true, Component: HomePage },
             { path: "login", Component: LoginPage },
             { path: "register", Component: RegisterPage },
-            { path: "discover", Component: DiscoverPage },
+            {
+                path: "discover",
+                children: [
+                    { index: true, Component: DiscoverPage },
+                    { path: "movie", Component: DiscoverMoviePage },
+                ]
+            },
             { path: "search", Component: SearchPage },
         ],
     },

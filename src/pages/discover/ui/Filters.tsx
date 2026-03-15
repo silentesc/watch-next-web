@@ -3,17 +3,17 @@ import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 
 export interface Filters {
-    releaseDateFrom: Date | null,
-    releaseDateTo: Date | null,
-    runtimeFrom: number | null,
-    runtimeTo: number | null,
-    tmdbRatingFrom: number | null,
-    tmdbRatingTo: number | null,
-    tmdbVoteCountFrom: number | null,
-    tmdbVoteCountTo: number | null,
-    withGenres: string | null,
-    withoutGenres: string | null,
-    originalLanguage: string | null,
+    releaseDateFrom: Date | undefined,
+    releaseDateTo: Date | undefined,
+    runtimeFrom: number | undefined,
+    runtimeTo: number | undefined,
+    tmdbRatingFrom: number | undefined,
+    tmdbRatingTo: number | undefined,
+    tmdbVoteCountFrom: number | undefined,
+    tmdbVoteCountTo: number | undefined,
+    withGenres: string | undefined,
+    withoutGenres: string | undefined,
+    originalLanguage: string | undefined,
 }
 
 interface FiltersProps {
@@ -24,30 +24,30 @@ interface FiltersProps {
 
 const isFiltersValid = (filters: Filters): boolean => {
     if (filters.releaseDateFrom && filters.releaseDateTo && filters.releaseDateFrom > filters.releaseDateTo) return false;
-    if (filters.runtimeFrom !== null && filters.runtimeTo !== null && filters.runtimeFrom > filters.runtimeTo) return false;
-    if (filters.tmdbRatingFrom !== null && filters.tmdbRatingTo !== null && filters.tmdbRatingFrom > filters.tmdbRatingTo) return false;
-    if (filters.tmdbVoteCountFrom !== null && filters.tmdbVoteCountTo !== null && filters.tmdbVoteCountFrom > filters.tmdbVoteCountTo) return false;
+    if (filters.runtimeFrom !== undefined && filters.runtimeTo !== undefined && filters.runtimeFrom > filters.runtimeTo) return false;
+    if (filters.tmdbRatingFrom !== undefined && filters.tmdbRatingTo !== undefined && filters.tmdbRatingFrom > filters.tmdbRatingTo) return false;
+    if (filters.tmdbVoteCountFrom !== undefined && filters.tmdbVoteCountTo !== undefined && filters.tmdbVoteCountFrom > filters.tmdbVoteCountTo) return false;
     return true;
 };
 
 export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
-    const [releaseDateFrom, setReleaseDateFrom] = useState<Date | null>(null);
-    const [releaseDateTo, setReleaseDateTo] = useState<Date | null>(null);
+    const [releaseDateFrom, setReleaseDateFrom] = useState<Date | undefined>(undefined);
+    const [releaseDateTo, setReleaseDateTo] = useState<Date | undefined>(undefined);
 
-    const [runtimeFrom, setRuntimeFrom] = useState<number | null>(null);
-    const [runtimeTo, setRuntimeTo] = useState<number | null>(null);
+    const [runtimeFrom, setRuntimeFrom] = useState<number | undefined>(undefined);
+    const [runtimeTo, setRuntimeTo] = useState<number | undefined>(undefined);
 
-    const [tmdbRatingFrom, setTmdbRatingFrom] = useState<number | null>(null);
-    const [tmdbRatingTo, setTmdbRatingTo] = useState<number | null>(null);
+    const [tmdbRatingFrom, setTmdbRatingFrom] = useState<number | undefined>(undefined);
+    const [tmdbRatingTo, setTmdbRatingTo] = useState<number | undefined>(undefined);
 
-    const [tmdbVoteCountFrom, setTmdbVoteCountFrom] = useState<number | null>(null);
-    const [tmdbVoteCountTo, setTmdbVoteCountTo] = useState<number | null>(null);
+    const [tmdbVoteCountFrom, setTmdbVoteCountFrom] = useState<number | undefined>(undefined);
+    const [tmdbVoteCountTo, setTmdbVoteCountTo] = useState<number | undefined>(undefined);
 
-    const [withGenres, setWithGenres] = useState<string | null>(null);
+    const [withGenres, setWithGenres] = useState<string | undefined>(undefined);
 
-    const [withoutGenres, setWithoutGenres] = useState<string | null>(null);
+    const [withoutGenres, setWithoutGenres] = useState<string | undefined>(undefined);
 
-    const [originalLanguage, setOriginalLanguage] = useState<string | null>(null);
+    const [originalLanguage, setOriginalLanguage] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         if (isOpen) {
@@ -62,6 +62,7 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
     }, [isOpen]);
 
     const applyFilters = () => {
+        console.log(releaseDateTo, typeof releaseDateTo);
         const filters: Filters = {
             releaseDateFrom,
             releaseDateTo,
@@ -105,11 +106,11 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
                     <div className="flex gap-1">
                         <div className="flex flex-col">
                             From
-                            <Input type="text" placeholder="YYYY-MM-DD" onChange={e => setReleaseDateFrom(e.target.valueAsDate)} />
+                            <Input type="date" placeholder="YYYY-MM-DD" onChange={e => setReleaseDateFrom(e.target.valueAsDate || undefined)} />
                         </div>
                         <div className="flex flex-col">
                             To
-                            <Input type="text" placeholder="YYYY-MM-DD" onChange={e => setReleaseDateTo(e.target.valueAsDate)} />
+                            <Input type="date" placeholder="YYYY-MM-DD" onChange={e => setReleaseDateTo(e.target.valueAsDate || undefined)} />
                         </div>
                     </div>
                 </div>

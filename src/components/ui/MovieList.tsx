@@ -43,10 +43,6 @@ export function MovieList({ infiniteQuery }: MovieListProps) {
 
     return (
         <>
-            <div className="my-2">
-                <span className="text-2xl">Movies</span>
-            </div>
-
             <div className="grid gap-5 grid-cols-[repeat(auto-fill,minmax(9rem,2fr))] justify-items-center">
                 {allMovies.map((movie, index) => (
                     <Movie key={index} movie={movie} />
