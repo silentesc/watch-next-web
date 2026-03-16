@@ -18,7 +18,7 @@ export interface MovieFilters {
     tmdbVoteCountTo: number | undefined,
     withGenres: string | undefined,
     withoutGenres: string | undefined,
-    originalLanguage: string,
+    originalLanguage: string | undefined,
 }
 
 interface FiltersProps {
@@ -51,14 +51,17 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
     const [tmdbVoteCountTo, setTmdbVoteCountTo] = useState<number | undefined>(undefined);
     const [withGenres, setWithGenres] = useState<string | undefined>(undefined);
     const [withoutGenres, setWithoutGenres] = useState<string | undefined>(undefined);
-    const [originalLanguage, setOriginalLanguage] = useState<string>("en");
+    const [originalLanguage, setOriginalLanguage] = useState<string>("*");
 
     const languages = useLanguages();
-    const languagesValues: Map<string, string> = new Map(languages.data?.sort((a, b) => {
-        if (a.english_name === b.english_name) return 0;
-        if (a.english_name > b.english_name) return 1;
-        return -1;
-    }).map(language => [language.iso_639_1, language.english_name]));
+    const languagesValues: Map<string, string> = new Map([
+        ["*", "All Languages"] as const,
+        ...(languages.data?.sort((a, b) => {
+            if (a.english_name === b.english_name) return 0;
+            if (a.english_name > b.english_name) return 1;
+            return -1;
+        }).map(language => [language.iso_639_1, language.english_name] as const) ?? [])
+    ]);
 
     const genres = useGenreMovie();
     const genresValues: Map<string, string> = new Map(genres.data?.genres.map(genre => [genre.id.toString(), genre.name]));
@@ -86,7 +89,7 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
         setTmdbVoteCountTo(undefined);
         setWithGenres(undefined);
         setWithoutGenres(undefined);
-        setOriginalLanguage("en");
+        setOriginalLanguage("*");
         releaseDateFromRef.current?.reset();
         releaseDateToRef.current?.reset();
         withGenresRef.current?.reset();
@@ -111,6 +114,8 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
         if (!isFiltersValid(filters)) {
             return;
         }
+
+        if (filters.originalLanguage === "*") filters.originalLanguage = undefined;
 
         onFiltersChange(filters);
     };
