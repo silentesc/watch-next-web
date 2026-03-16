@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 import { DatePicker, type DatePickerHandle } from "../../../components/ui/DatePicker";
+import { useLanguages } from "../../../hooks/use_languages";
+import { useGenreMovie } from "../../../hooks/use_genre_movie";
+import { MultiSelectDropdown } from "../../../components/ui/MultiSelectDropdown";
 
 export interface Filters {
     releaseDateFrom: Date | undefined,
@@ -37,21 +40,19 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
 
     const [releaseDateFrom, setReleaseDateFrom] = useState<Date | undefined>(undefined);
     const [releaseDateTo, setReleaseDateTo] = useState<Date | undefined>(undefined);
-
     const [runtimeFrom, setRuntimeFrom] = useState<number | undefined>(undefined);
     const [runtimeTo, setRuntimeTo] = useState<number | undefined>(undefined);
-
     const [tmdbRatingFrom, setTmdbRatingFrom] = useState<number | undefined>(undefined);
     const [tmdbRatingTo, setTmdbRatingTo] = useState<number | undefined>(undefined);
-
     const [tmdbVoteCountFrom, setTmdbVoteCountFrom] = useState<number | undefined>(undefined);
     const [tmdbVoteCountTo, setTmdbVoteCountTo] = useState<number | undefined>(undefined);
-
     const [withGenres, setWithGenres] = useState<string | undefined>(undefined);
-
     const [withoutGenres, setWithoutGenres] = useState<string | undefined>(undefined);
-
     const [originalLanguage, setOriginalLanguage] = useState<string | undefined>(undefined);
+
+    const languages = useLanguages();
+    const genres = useGenreMovie();
+    const genresValues: Map<string, string> = new Map(genres.data?.genres.map(genre => [genre.id.toString(), genre.name]));
 
     useEffect(() => {
         if (isOpen) {
@@ -110,7 +111,7 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
             </div>
 
             {/* Filters */}
-            <div className={`m-2 p-5 bg-background-primary flex flex-col gap-6 overflow-scroll transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className={`m-2 p-5 max-w-115 bg-background-primary flex flex-col gap-6 overflow-scroll transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 <div className="flex">
                     <div className="m-auto">
                     </div>
@@ -177,11 +178,11 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">With Genres</span>
-                    <Input type="text" placeholder="Action, Animation" value={withGenres} onChange={e => setWithGenres(e.target.value || undefined)} />
+                    <MultiSelectDropdown placeholder="Select genres..." values={genresValues} onSelect={(keys: string[]) => console.log("with genres", keys)} />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Without Genres</span>
-                    <Input type="text" placeholder="Action, Animation" value={withoutGenres} onChange={e => setWithoutGenres(e.target.value || undefined)} />
+                    <MultiSelectDropdown placeholder="Select genres..." values={genresValues} onSelect={(keys: string[]) => console.log("without genres", keys)} />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Original Language</span>
