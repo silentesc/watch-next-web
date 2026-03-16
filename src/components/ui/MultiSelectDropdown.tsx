@@ -23,18 +23,19 @@ export const MultiSelectDropdown = forwardRef<MultiSelectDropdownHandle, MultiSe
                 <div className="flex flex-wrap gap-1">
                     {
                         [...keys].map(key => (
-                            <div key={key} className=" flex items-center p-1 bg-background-primary">
-                                <span>{values.get(key)}</span>
-                                <svg onClick={() => removeSelected(key)} className="w-5 h-5 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
+                            <div key={key} className="flex items-center gap-2 px-2 py-1 bg-background-primary rounded-md border-2 border-background-tertiary">
+                                <span className="text-sm">{values.get(key)}</span>
+                                <span onClick={() => removeSelected(key)} className="p-1 text-gray-300 hover:text-error hover:bg-error/30 rounded transition-colors">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </span>
                             </div>
                         ))
                     }
                 </div>
             );
         }
-
 
         const [innerValues, setInnerValues] = useState(() => new Map(values));
         const [selectedKeys, setSelectedKeys] = useState<Array<string>>([]);
