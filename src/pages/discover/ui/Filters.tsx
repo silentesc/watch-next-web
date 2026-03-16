@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
-import { DatePicker } from "../../../components/ui/DatePicker";
+import { DatePicker, type DatePickerHandle } from "../../../components/ui/DatePicker";
 
 export interface Filters {
     releaseDateFrom: Date | undefined,
@@ -32,6 +32,9 @@ const isFiltersValid = (filters: Filters): boolean => {
 };
 
 export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
+    const releaseDateFromRef = useRef<DatePickerHandle>(null);
+    const releaseDateToRef = useRef<DatePickerHandle>(null);
+
     const [releaseDateFrom, setReleaseDateFrom] = useState<Date | undefined>(undefined);
     const [releaseDateTo, setReleaseDateTo] = useState<Date | undefined>(undefined);
 
@@ -62,6 +65,22 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
         };
     }, [isOpen]);
 
+    const resetFilters = () => {
+        setReleaseDateFrom(undefined);
+        setReleaseDateTo(undefined);
+        setRuntimeFrom(undefined);
+        setRuntimeTo(undefined);
+        setTmdbRatingFrom(undefined);
+        setTmdbRatingTo(undefined);
+        setTmdbVoteCountFrom(undefined);
+        setTmdbVoteCountTo(undefined);
+        setWithGenres(undefined);
+        setWithoutGenres(undefined);
+        setOriginalLanguage(undefined);
+        releaseDateFromRef.current?.reset();
+        releaseDateToRef.current?.reset();
+    }
+
     const applyFilters = () => {
         const filters: Filters = {
             releaseDateFrom,
@@ -80,8 +99,6 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
         if (!isFiltersValid(filters)) {
             return;
         }
-
-        console.log(filters);
 
         onFiltersChange(filters);
     };
@@ -102,17 +119,20 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </div>
-                <Button value="Apply Filters" onClick={applyFilters} />
+                <div className="flex gap-1">
+                    <Button value="Apply Filters" onClick={applyFilters} />
+                    <Button value="Reset Filters" onClick={resetFilters} />
+                </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Release Date</span>
                     <div className="relative flex gap-1">
                         <div className="flex flex-col">
                             From
-                            <DatePicker placeholder="YYYY-MM-DD" onChange={date => setReleaseDateFrom(date || undefined)} handleRelative={false} topClassName="top-18" />
+                            <DatePicker ref={releaseDateFromRef} placeholder="YYYY-MM-DD" onChange={date => setReleaseDateFrom(date || undefined)} handleRelative={false} topClassName="top-18" />
                         </div>
                         <div className="flex flex-col">
                             To
-                            <DatePicker placeholder="YYYY-MM-DD" onChange={date => setReleaseDateTo(date || undefined)} alignedRight handleRelative={false} topClassName="top-18" />
+                            <DatePicker ref={releaseDateToRef} placeholder="YYYY-MM-DD" onChange={date => setReleaseDateTo(date || undefined)} alignedRight handleRelative={false} topClassName="top-18" />
                         </div>
                     </div>
                 </div>
@@ -121,11 +141,11 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
                     <div className="flex gap-1">
                         <div className="flex flex-col">
                             From
-                            <Input type="number" placeholder="45" onChange={e => setRuntimeFrom(e.target.valueAsNumber || undefined)} />
+                            <Input type="number" placeholder="45" value={runtimeFrom} onChange={e => setRuntimeFrom(e.target.valueAsNumber || undefined)} />
                         </div>
                         <div className="flex flex-col">
                             To
-                            <Input type="number" placeholder="180" onChange={e => setRuntimeTo(e.target.valueAsNumber || undefined)} />
+                            <Input type="number" placeholder="180" value={runtimeTo} onChange={e => setRuntimeTo(e.target.valueAsNumber || undefined)} />
                         </div>
                     </div>
                 </div>
@@ -134,11 +154,11 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
                     <div className="flex gap-1">
                         <div className="flex flex-col">
                             From
-                            <Input type="number" placeholder="6.5" onChange={e => setTmdbRatingFrom(e.target.valueAsNumber || undefined)} />
+                            <Input type="number" placeholder="6.5" value={tmdbRatingFrom} onChange={e => setTmdbRatingFrom(e.target.valueAsNumber || undefined)} />
                         </div>
                         <div className="flex flex-col">
                             To
-                            <Input type="number" placeholder="9.5" onChange={e => setTmdbRatingTo(e.target.valueAsNumber || undefined)} />
+                            <Input type="number" placeholder="9.5" value={tmdbRatingTo} onChange={e => setTmdbRatingTo(e.target.valueAsNumber || undefined)} />
                         </div>
                     </div>
                 </div>
@@ -147,25 +167,25 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
                     <div className="flex gap-1">
                         <div className="flex flex-col">
                             From
-                            <Input type="number" placeholder="100" onChange={e => setTmdbVoteCountFrom(e.target.valueAsNumber || undefined)} />
+                            <Input type="number" placeholder="100" value={tmdbVoteCountFrom} onChange={e => setTmdbVoteCountFrom(e.target.valueAsNumber || undefined)} />
                         </div>
                         <div className="flex flex-col">
                             To
-                            <Input type="number" placeholder="100000" onChange={e => setTmdbVoteCountTo(e.target.valueAsNumber || undefined)} />
+                            <Input type="number" placeholder="100000" value={tmdbVoteCountTo} onChange={e => setTmdbVoteCountTo(e.target.valueAsNumber || undefined)} />
                         </div>
                     </div>
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">With Genres</span>
-                    <Input type="text" placeholder="Action, Animation" onChange={e => setWithGenres(e.target.value || undefined)} />
+                    <Input type="text" placeholder="Action, Animation" value={withGenres} onChange={e => setWithGenres(e.target.value || undefined)} />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Without Genres</span>
-                    <Input type="text" placeholder="Action, Animation" onChange={e => setWithoutGenres(e.target.value || undefined)} />
+                    <Input type="text" placeholder="Action, Animation" value={withoutGenres} onChange={e => setWithoutGenres(e.target.value || undefined)} />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Original Language</span>
-                    <Input type="text" placeholder="UK" onChange={e => setOriginalLanguage(e.target.value || undefined)} />
+                    <Input type="text" placeholder="UK" value={originalLanguage} onChange={e => setOriginalLanguage(e.target.value || undefined)} />
                 </div>
             </div>
         </div>
