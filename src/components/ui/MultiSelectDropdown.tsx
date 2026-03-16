@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import { Dropdown } from "./Dropdown";
 
 interface MultiSelectDropdownProps {
@@ -37,42 +37,27 @@ export const MultiSelectDropdown = forwardRef<MultiSelectDropdownHandle, MultiSe
             );
         }
 
-        const [innerValues, setInnerValues] = useState(() => new Map(values));
         const [selectedKeys, setSelectedKeys] = useState<Array<string>>([]);
         const [title, setTitle] = useState(renderTitle(selectedKeys));
+        const innerValues = useMemo(() => {
+            const map = new Map(values);
+            selectedKeys.forEach(k => map.delete(k));
+            return map;
+        }, [values, selectedKeys]);
 
         useImperativeHandle(ref, () => ({
             reset: () => {
                 setSelectedKeys([]);
-                setInnerValues(new Map(values));
             },
         }));
 
         const onDropdownValueSelect = (value: string) => {
             setSelectedKeys(prev => [...prev, value]);
-            setInnerValues(prev => {
-                const newMap = new Map(prev);
-                newMap.delete(value);
-                return newMap;
-            });
         }
 
         const removeSelected = (key: string) => {
             setSelectedKeys(prev => prev.filter(k => k !== key));
-            setInnerValues(() => {
-                const newMap = new Map(values);
-                values.forEach((value, mapKey) => {
-                    if (mapKey === key || !selectedKeys.some(sk => sk === mapKey)) {
-                        newMap.set(mapKey, value);
-                    }
-                });
-                return newMap;
-            });
         }
-
-        useEffect(() => {
-            setInnerValues(values);
-        }, [values]);
 
         useEffect(() => {
             setTitle(renderTitle(selectedKeys));
