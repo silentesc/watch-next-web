@@ -189,11 +189,11 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">With Genres</span>
-                    <MultiSelectDropdown ref={withGenresRef} placeholder="Select genres..." values={genresValues} onSelect={(keys: string[]) => console.log("with genres", keys)} />
+                    <MultiSelectDropdown ref={withGenresRef} placeholder="Select genres..." values={genresValues} onSelect={(keys: string[]) => setWithGenres(keys.join(",") || undefined)} />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Without Genres</span>
-                    <MultiSelectDropdown ref={withoutGenresRef} placeholder="Select genres..." values={genresValues} onSelect={(keys: string[]) => console.log("without genres", keys)} />
+                    <MultiSelectDropdown ref={withoutGenresRef} placeholder="Select genres..." values={genresValues} onSelect={(keys: string[]) => setWithoutGenres(keys.join(",") || undefined)} />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Original Language</span>

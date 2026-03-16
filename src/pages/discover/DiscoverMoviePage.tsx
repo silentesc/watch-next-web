@@ -35,6 +35,7 @@ export function DiscoverMoviePage() {
             without_genres: currentFilters.withoutGenres,
             with_runtime_gte: currentFilters.runtimeFrom,
             with_runtime_lte: currentFilters.runtimeTo,
+            with_original_language: currentFilters.originalLanguage,
         }),
         initialPageParam: 1,
         getNextPageParam: (lastPage) => lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
