@@ -53,11 +53,8 @@ export function DiscoverMoviePage() {
     return (
         <>
             {/* Bar */}
-            <div className="flex flex-wrap justify-between mb-5">
-                <div>
-                    <span className="text-2xl">Discover Movies</span>
-                </div>
-                <div className="flex gap-2 mt-1 sm:mt-0">
+            <div className="flex justify-end mb-5">
+                <div className="flex gap-2">
                     <SortBy sortByValues={sortByValues} onChange={onSortByChange} alignedRight descDefault />
                     <Button value="Filters" onClick={() => setIsFiltersOpen(!isFiltersOpen)} />
                 </div>
