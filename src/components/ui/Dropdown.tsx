@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type JSX } from "react";
 import Button from "./Button";
 
 interface DropdownProps {
-    title: string;
+    title: string | React.ReactElement | JSX.Element | JSX.Element[];
     values: Map<string, string>;
     onSelect: (value: string) => void;
     alignedRight?: boolean;
@@ -51,7 +51,13 @@ export function Dropdown({ title, values, onSelect, alignedRight = false }: Drop
                         (
                             <>
                                 <div className="flex justify-between items-center">
-                                    <span className="whitespace-nowrap">{title}</span>
+                                    {
+                                        typeof title === "string" ? (
+                                            <span className="whitespace-nowrap">{title}</span>
+                                        ) : (
+                                            title
+                                        )
+                                    }
                                     <svg className={`w-5 h-5 ml-2 -mr-1  ${isOpen ? "rotate-180" : ""}`} viewBox="0 0 20 20" fill="currentColor">
                                         <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                                     </svg>
@@ -66,7 +72,7 @@ export function Dropdown({ title, values, onSelect, alignedRight = false }: Drop
             {/* Dropdown Menu */}
             {
                 isOpen && (
-                    <div className={`${alignedRight && "right-0"} z-1000 absolute w-56 mt-2 origin-top-right bg-background-secondary border border-background-tertiary divide-y divide-background-tertiary rounded-md shadow-lg outline-none`}>
+                    <div className={`${alignedRight && "right-0"} z-1000 absolute w-56 max-h-100 overflow-scroll mt-2 origin-top-right bg-background-secondary border border-background-tertiary divide-y divide-background-tertiary rounded-md shadow-lg outline-none`}>
                         <>
                             {valueElements}
                         </>
