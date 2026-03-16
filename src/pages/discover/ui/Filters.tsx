@@ -81,6 +81,8 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
             return;
         }
 
+        console.log(filters);
+
         onFiltersChange(filters);
     };
 
@@ -106,11 +108,11 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
                     <div className="relative flex gap-1">
                         <div className="flex flex-col">
                             From
-                            <DatePicker placeholder="YYYY-MM-DD" onChange={date => setReleaseDateFrom(date)} handleRelative={false} topClassName="top-18" />
+                            <DatePicker placeholder="YYYY-MM-DD" onChange={date => setReleaseDateFrom(date || undefined)} handleRelative={false} topClassName="top-18" />
                         </div>
                         <div className="flex flex-col">
                             To
-                            <DatePicker placeholder="YYYY-MM-DD" onChange={date => setReleaseDateTo(date)} alignedRight handleRelative={false} topClassName="top-18" />
+                            <DatePicker placeholder="YYYY-MM-DD" onChange={date => setReleaseDateTo(date || undefined)} alignedRight handleRelative={false} topClassName="top-18" />
                         </div>
                     </div>
                 </div>
@@ -119,11 +121,11 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
                     <div className="flex gap-1">
                         <div className="flex flex-col">
                             From
-                            <Input type="number" placeholder="45" onChange={e => setRuntimeFrom(e.target.valueAsNumber)} />
+                            <Input type="number" placeholder="45" onChange={e => setRuntimeFrom(e.target.valueAsNumber || undefined)} />
                         </div>
                         <div className="flex flex-col">
                             To
-                            <Input type="number" placeholder="180" onChange={e => setRuntimeTo(e.target.valueAsNumber)} />
+                            <Input type="number" placeholder="180" onChange={e => setRuntimeTo(e.target.valueAsNumber || undefined)} />
                         </div>
                     </div>
                 </div>
@@ -132,11 +134,11 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
                     <div className="flex gap-1">
                         <div className="flex flex-col">
                             From
-                            <Input type="number" placeholder="6.5" onChange={e => setTmdbRatingFrom(e.target.valueAsNumber)} />
+                            <Input type="number" placeholder="6.5" onChange={e => setTmdbRatingFrom(e.target.valueAsNumber || undefined)} />
                         </div>
                         <div className="flex flex-col">
                             To
-                            <Input type="number" placeholder="9.5" onChange={e => setTmdbRatingTo(e.target.valueAsNumber)} />
+                            <Input type="number" placeholder="9.5" onChange={e => setTmdbRatingTo(e.target.valueAsNumber || undefined)} />
                         </div>
                     </div>
                 </div>
@@ -145,25 +147,25 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
                     <div className="flex gap-1">
                         <div className="flex flex-col">
                             From
-                            <Input type="number" placeholder="100" onChange={e => setTmdbVoteCountFrom(e.target.valueAsNumber)} />
+                            <Input type="number" placeholder="100" onChange={e => setTmdbVoteCountFrom(e.target.valueAsNumber || undefined)} />
                         </div>
                         <div className="flex flex-col">
                             To
-                            <Input type="number" placeholder="100000" onChange={e => setTmdbVoteCountTo(e.target.valueAsNumber)} />
+                            <Input type="number" placeholder="100000" onChange={e => setTmdbVoteCountTo(e.target.valueAsNumber || undefined)} />
                         </div>
                     </div>
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">With Genres</span>
-                    <Input type="text" placeholder="Action, Animation" onChange={e => setWithGenres(e.target.value)} />
+                    <Input type="text" placeholder="Action, Animation" onChange={e => setWithGenres(e.target.value || undefined)} />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Without Genres</span>
-                    <Input type="text" placeholder="Action, Animation" onChange={e => setWithoutGenres(e.target.value)} />
+                    <Input type="text" placeholder="Action, Animation" onChange={e => setWithoutGenres(e.target.value || undefined)} />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Original Language</span>
-                    <Input type="text" placeholder="UK" onChange={e => setOriginalLanguage(e.target.value)} />
+                    <Input type="text" placeholder="UK" onChange={e => setOriginalLanguage(e.target.value || undefined)} />
                 </div>
             </div>
         </div>
