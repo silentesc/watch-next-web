@@ -4,9 +4,9 @@ import Button from "../../../components/ui/Button";
 import { DatePicker, type DatePickerHandle } from "../../../components/ui/DatePicker";
 import { useLanguages } from "../../../hooks/use_languages";
 import { useGenreMovie } from "../../../hooks/use_genre_movie";
-import { MultiSelectDropdown } from "../../../components/ui/MultiSelectDropdown";
+import { MultiSelectDropdown, type MultiSelectDropdownHandle } from "../../../components/ui/MultiSelectDropdown";
 
-export interface Filters {
+export interface MovieFilters {
     releaseDateFrom: Date | undefined,
     releaseDateTo: Date | undefined,
     runtimeFrom: number | undefined,
@@ -22,11 +22,11 @@ export interface Filters {
 
 interface FiltersProps {
     isOpen: boolean,
-    onFiltersChange: (filters: Filters) => void;
+    onFiltersChange: (filters: MovieFilters) => void;
     onClose: () => void;
 }
 
-const isFiltersValid = (filters: Filters): boolean => {
+const isFiltersValid = (filters: MovieFilters): boolean => {
     if (filters.releaseDateFrom && filters.releaseDateTo && filters.releaseDateFrom > filters.releaseDateTo) return false;
     if (filters.runtimeFrom !== undefined && filters.runtimeTo !== undefined && filters.runtimeFrom > filters.runtimeTo) return false;
     if (filters.tmdbRatingFrom !== undefined && filters.tmdbRatingTo !== undefined && filters.tmdbRatingFrom > filters.tmdbRatingTo) return false;
@@ -34,9 +34,12 @@ const isFiltersValid = (filters: Filters): boolean => {
     return true;
 };
 
-export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
+export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
     const releaseDateFromRef = useRef<DatePickerHandle>(null);
     const releaseDateToRef = useRef<DatePickerHandle>(null);
+
+    const withGenresRef = useRef<MultiSelectDropdownHandle>(null);
+    const withoutGenresRef = useRef<MultiSelectDropdownHandle>(null);
 
     const [releaseDateFrom, setReleaseDateFrom] = useState<Date | undefined>(undefined);
     const [releaseDateTo, setReleaseDateTo] = useState<Date | undefined>(undefined);
@@ -80,10 +83,12 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
         setOriginalLanguage(undefined);
         releaseDateFromRef.current?.reset();
         releaseDateToRef.current?.reset();
+        withGenresRef.current?.reset();
+        withoutGenresRef.current?.reset();
     }
 
     const applyFilters = () => {
-        const filters: Filters = {
+        const filters: MovieFilters = {
             releaseDateFrom,
             releaseDateTo,
             runtimeFrom,
@@ -178,11 +183,11 @@ export function Filters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">With Genres</span>
-                    <MultiSelectDropdown placeholder="Select genres..." values={genresValues} onSelect={(keys: string[]) => console.log("with genres", keys)} />
+                    <MultiSelectDropdown ref={withGenresRef} placeholder="Select genres..." values={genresValues} onSelect={(keys: string[]) => console.log("with genres", keys)} />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Without Genres</span>
-                    <MultiSelectDropdown placeholder="Select genres..." values={genresValues} onSelect={(keys: string[]) => console.log("without genres", keys)} />
+                    <MultiSelectDropdown ref={withoutGenresRef} placeholder="Select genres..." values={genresValues} onSelect={(keys: string[]) => console.log("without genres", keys)} />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Original Language</span>

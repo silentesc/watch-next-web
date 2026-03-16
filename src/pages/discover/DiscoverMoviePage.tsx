@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "../../components/ui/Button";
-import { Filters } from "./ui/Filters";
+import { MovieFilters } from "./ui/MovieFilters";
 import { SortBy } from "../../components/ui/SortBy";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { discover_movie } from "../../api/discover/movie";
@@ -17,7 +17,7 @@ export function DiscoverMoviePage() {
     ]);
 
     const [currentSortBy, setCurrentSortBy] = useState("popularity.desc");
-    const [currentFilters, setCurrentFilters] = useState<Filters>({} as Filters);
+    const [currentFilters, setCurrentFilters] = useState<MovieFilters>({} as MovieFilters);
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
     const discoverMovieInfiniteQuery = useInfiniteQuery({
@@ -41,7 +41,7 @@ export function DiscoverMoviePage() {
         staleTime: 5 * 60 * 1000, // 5 minutes
     });
 
-    const onFiltersChange = (filters: Filters) => {
+    const onFiltersChange = (filters: MovieFilters) => {
         setIsFiltersOpen(false);
         setCurrentFilters(filters);
     };
@@ -61,7 +61,7 @@ export function DiscoverMoviePage() {
             </div>
 
             {/* Filters */}
-            <Filters isOpen={isFiltersOpen} onFiltersChange={onFiltersChange} onClose={() => setIsFiltersOpen(false)} />
+            <MovieFilters isOpen={isFiltersOpen} onFiltersChange={onFiltersChange} onClose={() => setIsFiltersOpen(false)} />
 
             {/* Movies */}
             <MovieList infiniteQuery={discoverMovieInfiniteQuery} />
