@@ -93,6 +93,9 @@ export const DatePicker = forwardRef<DatePickerHandle, DatePickerProps>(
         };
 
         const handleClear = () => {
+            const parsed = parseIsoDate(today);
+            if (!parsed) return;
+            setViewDate(parsed);
             setValue("");
             onChange(undefined);
         };
