@@ -5,6 +5,7 @@ import { DatePicker, type DatePickerHandle } from "../../../components/ui/DatePi
 import { useLanguages } from "../../../hooks/use_languages";
 import { useGenreMovie } from "../../../hooks/use_genre_movie";
 import { MultiSelectDropdown, type MultiSelectDropdownHandle } from "../../../components/ui/MultiSelectDropdown";
+import { Dropdown } from "../../../components/ui/Dropdown";
 
 export interface MovieFilters {
     releaseDateFrom: Date | undefined,
@@ -17,7 +18,7 @@ export interface MovieFilters {
     tmdbVoteCountTo: number | undefined,
     withGenres: string | undefined,
     withoutGenres: string | undefined,
-    originalLanguage: string | undefined,
+    originalLanguage: string,
 }
 
 interface FiltersProps {
@@ -37,7 +38,6 @@ const isFiltersValid = (filters: MovieFilters): boolean => {
 export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
     const releaseDateFromRef = useRef<DatePickerHandle>(null);
     const releaseDateToRef = useRef<DatePickerHandle>(null);
-
     const withGenresRef = useRef<MultiSelectDropdownHandle>(null);
     const withoutGenresRef = useRef<MultiSelectDropdownHandle>(null);
 
@@ -51,9 +51,15 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
     const [tmdbVoteCountTo, setTmdbVoteCountTo] = useState<number | undefined>(undefined);
     const [withGenres, setWithGenres] = useState<string | undefined>(undefined);
     const [withoutGenres, setWithoutGenres] = useState<string | undefined>(undefined);
-    const [originalLanguage, setOriginalLanguage] = useState<string | undefined>(undefined);
+    const [originalLanguage, setOriginalLanguage] = useState<string>("en");
 
     const languages = useLanguages();
+    const languagesValues: Map<string, string> = new Map(languages.data?.sort((a, b) => {
+        if (a.english_name === b.english_name) return 0;
+        if (a.english_name > b.english_name) return 1;
+        return -1;
+    }).map(language => [language.iso_639_1, language.english_name]));
+
     const genres = useGenreMovie();
     const genresValues: Map<string, string> = new Map(genres.data?.genres.map(genre => [genre.id.toString(), genre.name]));
 
@@ -80,7 +86,7 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
         setTmdbVoteCountTo(undefined);
         setWithGenres(undefined);
         setWithoutGenres(undefined);
-        setOriginalLanguage(undefined);
+        setOriginalLanguage("en");
         releaseDateFromRef.current?.reset();
         releaseDateToRef.current?.reset();
         withGenresRef.current?.reset();
@@ -191,7 +197,7 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Original Language</span>
-                    <Input type="text" placeholder="UK" value={originalLanguage} onChange={e => setOriginalLanguage(e.target.value || undefined)} />
+                    <Dropdown title={languagesValues.get(originalLanguage) || originalLanguage} values={languagesValues} onSelect={(value) => setOriginalLanguage(value)} />
                 </div>
             </div>
         </div>
