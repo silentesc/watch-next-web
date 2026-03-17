@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link, NavLink } from "react-router";
 import Logo from "../ui/Logo";
 import { useMe } from "../../hooks/use_me";
@@ -10,33 +10,35 @@ function Navbar() {
 
     const me = useMe();
 
-    const desktopLinksWhenLoggedIn = (
+    const desktopLinksWhenLoggedIn = useMemo(() => (
         <>
             <NavLink className="mx-2 text-2xl" to="/discover">Discover</NavLink>
+            <NavLink className="mx-2 text-2xl" to="/search">Search</NavLink>
         </>
-    );
-    const mobileLinksWhenLoggedIn = (
+    ), []);
+    const mobileLinksWhenLoggedIn = useMemo(() => (
         <>
             <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/discover">Discover</NavLink>
+            <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl" to="/search">Search</NavLink>
         </>
-    )
+    ), []);
 
-    const desktopAuthLinks = (
+    const desktopAuthLinks = useMemo(() => (
         <>
             <NavLink className="mx-2 text-2xl p-2.5" to="/login">Login</NavLink>
             <NavLink className="mx-2 text-2xl bg-primary rounded-md p-2.5" to="/register">Register</NavLink>
         </>
-    );
-    const mobileAuthLinks = (
+    ), []);
+    const mobileAuthLinks = useMemo(() => (
         <>
             <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl p-2.5" to="/login">Login</NavLink>
             <NavLink onClick={() => setIsMobileMenuOpen(false)} className="mx-2 mb-1 text-2xl bg-primary rounded-md p-2.5" to="/register">Register</NavLink>
         </>
-    );
+    ), []);
 
     return (
         <>
-            <nav className="mb-3 p-4 bg-background-primary">
+            <nav className="p-4 bg-background-primary">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                     <div className="flex items-center w-full">
                         <div className="mr-5">
