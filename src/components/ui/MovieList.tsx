@@ -37,7 +37,8 @@ export function MovieList({ infiniteQuery }: MovieListProps) {
         return () => observerRef.current?.disconnect();
     }, [infiniteQuery.hasNextPage, infiniteQuery.isFetchingNextPage]);
 
-    const allMovies = infiniteQuery.data?.pages.flatMap(page => page.results) ?? [];
+    // Convert to map and then back to array to prevent duplicate movie id
+    const allMovies = [...new Map(infiniteQuery.data?.pages.flatMap(page => page.results).map(movie => [movie.id, movie]) ?? []).values()];
 
     if (infiniteQuery.error) return <Error message={infiniteQuery.error.message} />;
 
