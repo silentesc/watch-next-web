@@ -50,6 +50,7 @@ export interface MovieDetails {
     imdb_id?: string,
     adult?: boolean,
     backdrop_path?: string,
+    poster_path?: string,
     belongs_to_collection?: Collection,
     budget?: number,
     genres?: Array<Genre>,
