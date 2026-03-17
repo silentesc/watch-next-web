@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import type { MovieOverview } from "../../api/models";
 
 interface MovieProps {
@@ -5,8 +6,13 @@ interface MovieProps {
 }
 
 export function Movie({ movie }: MovieProps) {
-    const movieTitle = movie.title ? (movie.title.length > 30 ? movie.title.substring(0, 30) + "..." : movie.title) : ""
-    const movieReleaseDate = movie.release_date ? movie.release_date.toString() : "";
+    const movieTitle = useMemo(() => 
+        movie.title ? (movie.title.length > 30 ? movie.title.substring(0, 30) + "..." : movie.title) : "",
+    [movie.title]);
+    
+    const movieReleaseDate = useMemo(() => 
+        movie.release_date ? movie.release_date.toString() : "",
+    [movie.release_date]);
 
     return (
         <div className="relative min-w-35 max-w-45 bg-background-primary shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)] border border-background-tertiary rounded-md">

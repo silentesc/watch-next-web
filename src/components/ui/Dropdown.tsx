@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, type JSX } from "react";
+import { useState, useRef, useEffect, type JSX, useCallback, useMemo } from "react";
 import Button from "./Button";
 
 interface DropdownProps {
@@ -21,26 +21,26 @@ export function Dropdown({ title, values, onSelect, alignedRight = false }: Drop
         setIsOpen(false);
     }
 
-    const valueElements = Array.from(values.entries()).map(([key, value]) =>
-        <p key={key} className="block w-full px-4 py-2 text-md text-left transition-colors cursor-pointer hover:bg-background-tertiary" onClick={() => onValueElementClick(key)}>{value}</p>
-    );
+    const valueElements = useMemo(() =>
+        Array.from(values.entries()).map(([key, value]) =>
+            <p key={key} className="block w-full px-4 py-2 text-md text-left transition-colors cursor-pointer hover:bg-background-tertiary" onClick={() => onValueElementClick(key)}>{value}</p>
+        ), [values]);
 
     // Close dropdown when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsOpen(false);
-            }
-        };
-
-        if (isOpen) {
-            document.addEventListener("mousedown", handleClickOutside);
+    const handleClickOutside = useCallback((event: MouseEvent) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            setIsOpen(false);
         }
+    }, []);
 
+    useEffect(() => {
+        if (!isOpen) return;
+
+        document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [isOpen]);
+    }, [isOpen, handleClickOutside]);
 
     return (
         <div className="relative inline-block text-left" ref={dropdownRef}>

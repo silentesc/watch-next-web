@@ -41,7 +41,7 @@ export function MeDropdown({ me, isMobile = false }: MeDropdownProps) {
     const mutation = useMutation({
         mutationFn: logout,
         onSuccess: () => {
-            queryClient.removeQueries();
+            queryClient.removeQueries({ queryKey: ["me"] });
             navigate("/");
         }
     });

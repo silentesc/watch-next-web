@@ -10,18 +10,12 @@ interface SortByProps {
 }
 
 export function SortBy({ sortByValues, onChange, alignedRight = false, descDefault = false }: SortByProps) {
-    const [isInitialLoad, setIsInitialLoad] = useState(true);
-
     const [sortBy, setSortBy] = useState(Array.from(sortByValues.keys())[0]);
     const [isAsc, setIsAsc] = useState(!descDefault);
 
     useEffect(() => {
-        if (isInitialLoad) {
-            setIsInitialLoad(false);
-            return;
-        }
         onChange(`${sortBy}${isAsc ? ".asc" : ".desc"}`);
-    }, [sortBy, isAsc]);
+    }, [sortBy, isAsc, onChange]);
 
     return (
         <div className="flex">

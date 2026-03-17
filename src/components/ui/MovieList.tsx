@@ -35,7 +35,7 @@ export function MovieList({ infiniteQuery }: MovieListProps) {
         if (bottomRef.current) observerRef.current.observe(bottomRef.current);
 
         return () => observerRef.current?.disconnect();
-    }, [infiniteQuery.hasNextPage, infiniteQuery.isFetchingNextPage, infiniteQuery.fetchNextPage]);
+    }, [infiniteQuery.hasNextPage, infiniteQuery.isFetchingNextPage]);
 
     const allMovies = infiniteQuery.data?.pages.flatMap(page => page.results) ?? [];
 
@@ -44,8 +44,8 @@ export function MovieList({ infiniteQuery }: MovieListProps) {
     return (
         <>
             <div className="grid gap-5 grid-cols-[repeat(auto-fill,minmax(9rem,2fr))] justify-items-center">
-                {allMovies.map((movie, index) => (
-                    <Movie key={index} movie={movie} />
+                {allMovies.map((movie) => (
+                    <Movie key={movie.id} movie={movie} />
                 ))}
             </div>
 

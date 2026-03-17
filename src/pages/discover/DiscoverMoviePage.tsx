@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Button from "../../components/ui/Button";
 import { MovieFilters } from "./ui/MovieFilters";
 import { SortBy } from "../../components/ui/SortBy";
@@ -20,8 +20,23 @@ export function DiscoverMoviePage() {
     const [currentFilters, setCurrentFilters] = useState<MovieFilters>({} as MovieFilters);
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
+    // Memoize the filters to ensure stable object reference for queryKey
+    const memoizedFilters = useMemo(() => currentFilters, [
+        currentFilters.releaseDateFrom,
+        currentFilters.releaseDateTo,
+        currentFilters.runtimeFrom,
+        currentFilters.runtimeTo,
+        currentFilters.tmdbRatingFrom,
+        currentFilters.tmdbRatingTo,
+        currentFilters.tmdbVoteCountFrom,
+        currentFilters.tmdbVoteCountTo,
+        currentFilters.withGenres,
+        currentFilters.withoutGenres,
+        currentFilters.originalLanguage,
+    ]);
+
     const discoverMovieInfiniteQuery = useInfiniteQuery({
-        queryKey: ["discoverMovie", currentSortBy, currentFilters],
+        queryKey: ["discoverMovie", currentSortBy, memoizedFilters],
         queryFn: ({ pageParam }) => discover_movie({
             page: pageParam,
             primary_release_date_gte: currentFilters.releaseDateFrom,

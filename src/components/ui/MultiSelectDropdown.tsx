@@ -62,7 +62,7 @@ export const MultiSelectDropdown = forwardRef<MultiSelectDropdownHandle, MultiSe
         useEffect(() => {
             setTitle(renderTitle(selectedKeys));
             onSelect(selectedKeys);
-        }, [selectedKeys]);
+        }, [selectedKeys, onSelect]);
 
         return (
             <Dropdown title={title} values={innerValues} onSelect={onDropdownValueSelect} alignedRight={alignedRight} />
