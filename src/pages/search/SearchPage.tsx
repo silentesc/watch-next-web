@@ -22,6 +22,7 @@ export function SearchPage() {
         getNextPageParam: (lastPage) => lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
         staleTime: 5 * 60 * 1000, // 5 minutes
         enabled: !!searchText,
+        retry: false,
     });
 
     const onSearch = (searchCategory: string, searchText: string) => {
