@@ -19,6 +19,11 @@ api.interceptors.response.use(
         }
         await logout();
 
+        const currentPath = window.location.pathname;
+        if (currentPath !== "/login" && currentPath !== "/register") {
+            window.location.href = "/login";
+        }
+
         return Promise.reject(err);
     }
 )
