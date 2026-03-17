@@ -25,7 +25,7 @@ export function Searchbar({ categories, onSearch }: SearchbarProps) {
             <div className="sm:flex sm:gap-1">
                 <div className="flex gap-1 w-full">
                     <Dropdown title={categories.get(searchCategory) || searchCategory} values={categories} onSelect={value => setSearchCategory(value)} />
-                    <Input type="text" placeholder="Search" onChange={e => setSearchText(e.target.value)} />
+                    <Input type="text" value={searchText} placeholder="Search" onChange={e => setSearchText(e.target.value)} />
                 </div>
                 <div className="sm:w-35 mt-1 sm:mt-0">
                     <Button value="Search" type="submit" />
