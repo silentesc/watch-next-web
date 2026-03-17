@@ -1,6 +1,6 @@
 import { api } from "../client";
 import { error2userMessage } from "../errors";
-import type { Movie } from "../models";
+import type { MovieOverview } from "../models";
 
 export interface DiscoverMovieRequest {
     page?: number;
@@ -23,7 +23,7 @@ export interface DiscoverMovieResponse {
     page: number;
     total_pages: number;
     total_results: number;
-    results: Array<Movie>;
+    results: Array<MovieOverview>;
 }
 
 export async function discover_movie(

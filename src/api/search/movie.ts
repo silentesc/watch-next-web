@@ -1,12 +1,12 @@
 import { api } from "../client";
 import { error2userMessage } from "../errors";
-import type { Movie } from "../models";
+import type { MovieOverview } from "../models";
 
 export interface SearchMovieResponse {
     page: number;
     total_pages: number;
     total_results: number;
-    results: Array<Movie>;
+    results: Array<MovieOverview>;
 }
 
 export async function search_movie(query: string, page: number = 1): Promise<SearchMovieResponse> {

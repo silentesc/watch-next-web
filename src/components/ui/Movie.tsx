@@ -1,10 +1,13 @@
-import type { Movie } from "../../api/models";
+import type { MovieOverview } from "../../api/models";
 
 interface MovieProps {
-    movie: Movie,
+    movie: MovieOverview,
 }
 
 export function Movie({ movie }: MovieProps) {
+    const movieTitle = movie.title ? (movie.title.length > 30 ? movie.title.substring(0, 30) + "..." : movie.title) : ""
+    const movieReleaseDate = movie.release_date ? movie.release_date.toString() : "";
+
     return (
         <div className="relative min-w-35 max-w-45 bg-background-primary shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)] border border-background-tertiary rounded-md">
             {/* Label */}
@@ -27,12 +30,8 @@ export function Movie({ movie }: MovieProps) {
 
             {/* Info */}
             <div className="flex flex-col text-center p-1">
-                <span title={movie.title}>
-                    {movie.title.length > 30
-                        ? movie.title.substring(0, 30) + '...'
-                        : movie.title}
-                </span>
-                <span title={movie.release_date.toString()} className="opacity-75">{movie.release_date.toString().split("-")[0]}</span>
+                <span title={movieTitle}>{movieTitle}</span>
+                <span title={movieReleaseDate} className="opacity-75">{movieReleaseDate.split("-")[0]}</span>
             </div>
         </div>
     );

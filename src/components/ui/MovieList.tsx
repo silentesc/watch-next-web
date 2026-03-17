@@ -3,13 +3,13 @@ import { useEffect, useRef } from "react";
 import Error from "./Error";
 import { Movie } from "./Movie";
 import Loading from "./Loading";
-import type { Movie as MovieModel } from "../../api/models";
+import type { MovieOverview } from "../../api/models";
 
 export interface InfiniteDataTemplate {
     page: number;
     total_pages: number;
     total_results: number;
-    results: Array<MovieModel>;
+    results: Array<MovieOverview>;
 }
 
 interface MovieListProps {
