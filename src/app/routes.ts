@@ -6,6 +6,7 @@ import RegisterPage from "../pages/auth/RegisterPage";
 import { DiscoverMoviePage } from "../pages/discover/DiscoverMoviePage";
 import { SearchPage } from "../pages/search/SearchPage";
 import { DiscoverPage } from "../pages/discover/DiscoverPage";
+import { MovieDetailsPage } from "../pages/movie/MovieDetailsPage";
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
                     { path: "movie", Component: DiscoverMoviePage },
                 ]
             },
+            { path: "/movie/:id", Component: MovieDetailsPage },
             { path: "search", Component: SearchPage },
         ],
     },
