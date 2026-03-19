@@ -36,7 +36,7 @@ export function MultiSelectDropdown({ placeholder, selectedKeys, values, onSelec
 
     const title = useMemo(() => {
         return renderTitle(selectedKeys);
-    }, [selectedKeys]);
+    }, [selectedKeys, values]);
 
     const innerValues = useMemo(() => {
         const map = new Map(values);

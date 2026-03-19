@@ -10,11 +10,11 @@ interface DatePickerProps {
     topClassName?: string;
 }
 
-function formatDate(year: number, month: number, day: number) {
+export function formatDate(year: number, month: number, day: number) {
     return `${year}-${(month + 1).toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
 }
 
-function parseIsoDate(value: string) {
+export function parseIsoDate(value: string) {
     const [yearStr, monthStr, dayStr] = value.split("-");
     const year = Number(yearStr);
     const month = Number(monthStr) - 1;
@@ -97,7 +97,7 @@ export function DatePicker({ value, placeholder = "", onChange, alignedRight = f
     return (
         <div className={`${handleRelative && "relative"} w-full`} ref={datePickerRef}>
             <Button
-                value={value ? formatDate(value.getFullYear(), value.getMonth(), value.getDay()) : placeholder || (<>&nbsp;</>)}
+                value={value ? formatDate(value.getFullYear(), value.getMonth(), value.getDay()) : placeholder ? (<span className="opacity-50">{placeholder}</span>) : (<>&nbsp;</>)}
                 alignment="left"
                 onClick={() => setIsOpen((prev) => !prev)}
             />
