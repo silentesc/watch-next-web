@@ -3,8 +3,11 @@ import { useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { search_movie } from "../../api/search/movie";
 import { MovieList } from "../../components/ui/MovieList";
+import { useSearchParams } from "react-router";
 
 export function SearchPage() {
+    const [queryParams, setQueryParams] = useSearchParams();
+
     const values = new Map([
         ["all", "All"],
         ["movies", "Movies"],
@@ -12,10 +15,10 @@ export function SearchPage() {
         ["people", "People"],
     ]);
 
-    const [searchCategory, setSearchCategory] = useState(Array.from(values.keys())[0]);
-    const [searchText, setSearchText] = useState("");
-    const [debouncedCategory, setDebouncedCategory] = useState(Array.from(values.keys())[0]);
-    const [debouncedText, setDebouncedText] = useState("");
+    const [searchCategory, setSearchCategory] = useState(queryParams.get("category") || Array.from(values.keys())[0]);
+    const [searchText, setSearchText] = useState(queryParams.get("query") || "");
+    const [debouncedCategory, setDebouncedCategory] = useState(queryParams.get("category") || Array.from(values.keys())[0]);
+    const [debouncedText, setDebouncedText] = useState(queryParams.get("query") || "");
 
     const searchMovieInfiniteQuery = useInfiniteQuery({
         queryKey: ["searchMovie", debouncedCategory, debouncedText],
@@ -28,12 +31,13 @@ export function SearchPage() {
     });
 
     const onSearch = () => {
+        setQueryParams({ category: searchCategory, query: searchText });
         setDebouncedCategory(searchCategory)
         setDebouncedText(searchText);
     }
 
     const renderContent = () => {
-        if (!searchText) return <span className="text-2xl">Search something...</span>;
+        if (!debouncedText) return <span className="text-2xl">Search something...</span>;
 
         switch (searchCategory) {
             case "all": return <p>Not implemented yet</p>;
