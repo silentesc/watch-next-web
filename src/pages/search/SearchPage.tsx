@@ -1,5 +1,4 @@
 import { Searchbar } from "../../components/ui/Searchbar";
-import { useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { search_movie } from "../../api/search/movie";
 import { MovieList } from "../../components/ui/MovieList";
@@ -15,36 +14,34 @@ export function SearchPage() {
         ["people", "People"],
     ]);
 
-    const [searchCategory, setSearchCategory] = useState(queryParams.get("category") || Array.from(values.keys())[0]);
-    const [searchText, setSearchText] = useState(queryParams.get("query") || "");
-    const [debouncedCategory, setDebouncedCategory] = useState(queryParams.get("category") || Array.from(values.keys())[0]);
-    const [debouncedText, setDebouncedText] = useState(queryParams.get("query") || "");
+    const category = queryParams.get("category") || "";
+    const text = queryParams.get("query") || "";
+    let tmpCategory = category;
+    let tmpText = text;
 
     const searchMovieInfiniteQuery = useInfiniteQuery({
-        queryKey: ["searchMovie", debouncedCategory, debouncedText],
-        queryFn: ({ pageParam }) => search_movie(debouncedText, pageParam),
+        queryKey: ["searchMovie", category, text],
+        queryFn: ({ pageParam }) => search_movie(text, pageParam),
         initialPageParam: 1,
         getNextPageParam: (lastPage) => lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
         staleTime: 5 * 60 * 1000, // 5 minutes
-        enabled: !!debouncedText && debouncedCategory === "movies",
+        enabled: !!text && category === "movies",
         retry: false,
     });
 
     const onSearch = () => {
-        setQueryParams({ category: searchCategory, query: searchText });
-        setDebouncedCategory(searchCategory)
-        setDebouncedText(searchText);
+        setQueryParams({ category: tmpCategory, query: tmpText });
     }
 
     const renderContent = () => {
-        if (!debouncedText) return <span className="text-2xl">Search something...</span>;
+        if (!text) return <span className="text-2xl">Search something...</span>;
 
-        switch (searchCategory) {
+        switch (tmpCategory) {
             case "all": return <p>Not implemented yet</p>;
             case "movies": return <MovieList infiniteQuery={searchMovieInfiniteQuery} />;
             case "tv_shows": return <p>Not implemented yet</p>;
             case "people": return <p>Not implemented yet</p>;
-            default: return <span className="text-2xl">Category {searchCategory} not found</span>;
+            default: return <span className="text-2xl">Category {tmpCategory} not found</span>;
         }
     };
 
@@ -53,12 +50,12 @@ export function SearchPage() {
             {/* Search Bar */}
             <div className="mb-5">
                 <Searchbar
-                    category={searchCategory}
-                    text={searchText}
+                    category={tmpCategory}
+                    text={tmpText}
                     categories={values}
                     onSearch={onSearch}
-                    onCategoryChange={(category) => setSearchCategory(category)}
-                    onTextChange={(text) => setSearchText(text)}
+                    onCategoryChange={(category) => tmpCategory = category}
+                    onTextChange={(text) => tmpText = text}
                 />
             </div>
 
