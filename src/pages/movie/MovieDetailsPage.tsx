@@ -114,10 +114,10 @@ export function MovieDetailsPage() {
                             {/* Header Info */}
                             <div className="flex-1">
                                 <div className="mb-4">
-                                    <div className="flex gap-2 mb-1 sm:mb-2">
-                                        <span className="text-3xl sm:text-5xl font-bold">{data.title}</span>
-                                        <span className="text-3xl font-semibold">{releaseYear && `(${releaseYear})`}</span>
-                                    </div>
+                                    <span className="text-3xl sm:text-5xl font-bold">
+                                        {data.title}
+                                        <span className="text-3xl font-semibold">{releaseYear && ` (${releaseYear})`}</span>
+                                    </span>
                                     {data.tagline && <p className="text-xl text-foreground-secondary italic">{data.tagline}</p>}
                                 </div>
 
@@ -180,10 +180,16 @@ export function MovieDetailsPage() {
                             data.belongs_to_collection && (
                                 <div className="relative h-20 my-2 bg-background-secondary border-2 border-background-tertiary rounded-md">
                                     <span className="absolute z-5 top-1/2 -translate-y-1/2 text-xl p-2 font-semibold">{data.belongs_to_collection.name}</span>
-                                    <img
-                                        src={`https://image.tmdb.org/t/p/w500${data.belongs_to_collection.backdrop_path}`}
-                                        className="w-full h-full object-cover opacity-40"
-                                    />
+                                    {
+                                        data.belongs_to_collection.backdrop_path ? (
+                                            <img
+                                                src={`https://image.tmdb.org/t/p/w500${data.belongs_to_collection.backdrop_path}`}
+                                                className="w-full h-full object-cover opacity-40"
+                                            />
+                                        ) : (
+                                            <div className="absolute inset-0 bg-background-secondary opacity-40" />
+                                        )
+                                    }
                                 </div>
                             )
                         }
