@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 import Navbar from "../components/layouts/Navbar";
 
-function App() {
+export function App() {
     return (
         <>
             <Navbar />
@@ -11,5 +11,3 @@ function App() {
         </>
     )
 }
-
-export default App;

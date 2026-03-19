@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect, type JSX, useCallback, useMemo } from "react";
-import Button from "./Button";
+import { Button } from "./Button";
 
 interface DropdownProps {
     title: string | React.ReactElement | JSX.Element | JSX.Element[];
     values: Map<string, string>;
-    onSelect: (value: string) => void;
+    onSelect: (key: string) => void;
     alignedRight?: boolean;
 }
 

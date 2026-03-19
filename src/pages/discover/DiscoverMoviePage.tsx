@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import Button from "../../components/ui/Button";
+import { Button } from "../../components/ui/Button";
 import { MovieFilters } from "./ui/MovieFilters";
 import { SortBy } from "../../components/ui/SortBy";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -16,7 +16,8 @@ export function DiscoverMoviePage() {
         ["title", "Title"],
     ]);
 
-    const [currentSortBy, setCurrentSortBy] = useState("popularity.desc");
+    const [currentSortBy, setCurrentSortBy] = useState("popularity");
+    const [isAsc, setIsAsc] = useState(false);
     const [currentFilters, setCurrentFilters] = useState<MovieFilters>({} as MovieFilters);
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
@@ -36,12 +37,12 @@ export function DiscoverMoviePage() {
     ]);
 
     const discoverMovieInfiniteQuery = useInfiniteQuery({
-        queryKey: ["discoverMovie", currentSortBy, memoizedFilters],
+        queryKey: ["discoverMovie", currentSortBy, isAsc, memoizedFilters],
         queryFn: ({ pageParam }) => discover_movie({
             page: pageParam,
             primary_release_date_gte: memoizedFilters.releaseDateFrom,
             primary_release_date_lte: memoizedFilters.releaseDateTo,
-            sort_by: currentSortBy,
+            sort_by: `${currentSortBy}${isAsc ? ".asc" : ".desc"}`,
             vote_average_gte: memoizedFilters.tmdbRatingFrom,
             vote_average_lte: memoizedFilters.tmdbRatingTo,
             vote_count_gte: memoizedFilters.tmdbVoteCountFrom,
@@ -63,16 +64,18 @@ export function DiscoverMoviePage() {
         setCurrentFilters(filters);
     };
 
-    const onSortByChange = (sortBy: string) => {
-        setCurrentSortBy(sortBy);
-    };
-
     return (
         <>
             {/* Bar */}
             <div className="flex justify-end mb-5">
                 <div className="flex gap-2">
-                    <SortBy sortByValues={sortByValues} onChange={onSortByChange} alignedRight descDefault />
+                    <SortBy
+                        sortByKey={currentSortBy}
+                        isAsc={isAsc} sortByValues={sortByValues}
+                        onSortByChange={sortBy => setCurrentSortBy(sortBy)}
+                        onAscChange={isAsc => setIsAsc(isAsc)}
+                        alignedRight descDefault
+                    />
                     <Button value="Filters" onClick={() => setIsFiltersOpen(!isFiltersOpen)} />
                 </div>
             </div>

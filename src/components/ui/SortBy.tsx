@@ -1,30 +1,25 @@
-import { useEffect, useState } from "react";
-import Button from "./Button";
+import { Button } from "./Button";
 import { Dropdown } from "./Dropdown";
 
 interface SortByProps {
+    sortByKey: string;
+    isAsc: boolean;
     sortByValues: Map<string, string>;
-    onChange: (sortBy: string) => void;
+    onSortByChange: (sortBy: string) => void;
+    onAscChange: (isAsc: boolean) => void;
     alignedRight?: boolean;
     descDefault?: boolean;
 }
 
-export function SortBy({ sortByValues, onChange, alignedRight = false, descDefault = false }: SortByProps) {
-    const [sortBy, setSortBy] = useState(Array.from(sortByValues.keys())[0]);
-    const [isAsc, setIsAsc] = useState(!descDefault);
-
-    useEffect(() => {
-        onChange(`${sortBy}${isAsc ? ".asc" : ".desc"}`);
-    }, [sortBy, isAsc, onChange]);
-
+export function SortBy({ sortByKey, isAsc, sortByValues, onSortByChange, onAscChange, alignedRight = false }: SortByProps) {
     return (
         <div className="flex">
             <div className="flex space-x-4">
             </div>
 
-            <Button onClick={() => setIsAsc(!isAsc)} value={
+            <Button onClick={() => onAscChange(!isAsc)} value={
                 <svg
-                    className={`w-5 h-5 transition-colors duration-200 ${isAsc ? "" : "rotate-180"}`}
+                    className={`w-5 h-5 transition-colors duration-200 ${!isAsc && "rotate-180"}`}
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -33,7 +28,7 @@ export function SortBy({ sortByValues, onChange, alignedRight = false, descDefau
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v14m0 0l-4-4m4 4l4-4" />
                 </svg>
             } />
-            <Dropdown title={sortByValues.get(sortBy) || sortBy} values={sortByValues} onSelect={value => setSortBy(value)} alignedRight={alignedRight} />
+            <Dropdown title={sortByValues.get(sortByKey) || sortByKey} values={sortByValues} onSelect={key => onSortByChange(key)} alignedRight={alignedRight} />
         </div>
     );
 }

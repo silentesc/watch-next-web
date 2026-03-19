@@ -9,8 +9,17 @@ interface MovieProps {
 export function Movie({ movie }: MovieProps) {
     const navigate = useNavigate();
 
-    const movieTitle = useMemo(() => movie.title ? (movie.title.length > 30 ? movie.title.substring(0, 30) + "..." : movie.title) : "", [movie.title]);
-    const movieReleaseDate = useMemo(() => movie.release_date ? movie.release_date.toString() : "", [movie.release_date]);
+    const movieTitle = useMemo(() => {
+        return movie.title ? (movie.title.length > 30 ? movie.title.substring(0, 30) + "..." : movie.title) : "";
+    }, [movie.title]);
+    const movieReleaseDate = useMemo(() => {
+        return movie.release_date ? movie.release_date.toString() : "";
+    }, [movie.release_date]);
+
+    const onPosterClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        navigate(`/movie/${movie.id}`);
+    };
 
     return (
         <div className="relative min-w-35 max-w-45 bg-background-primary shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)] border border-background-tertiary rounded-md">
@@ -21,10 +30,7 @@ export function Movie({ movie }: MovieProps) {
 
             {/* Poster */}
             <div className="aspect-2/3 cursor-pointer">
-                <a href={`/movie/${movie.id}`} onClick={(e) => {
-                    e.preventDefault();
-                    navigate(`/movie/${movie.id}`);
-                }}>
+                <a href={`/movie/${movie.id}`} onClick={onPosterClick}>
                     {
                         movie.poster_path ? (
                             <img className="rounded-t-md w-full h-full object-cover" src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`} alt={movie.title} />

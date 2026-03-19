@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router";
-import App from "./app";
-import HomePage from "../pages/home/HomePage";
-import LoginPage from "../pages/auth/LoginPage";
-import RegisterPage from "../pages/auth/RegisterPage";
+import { App } from "./App";
+import { LoginPage } from "../pages/auth/LoginPage";
+import { RegisterPage } from "../pages/auth/RegisterPage";
 import { DiscoverMoviePage } from "../pages/discover/DiscoverMoviePage";
 import { SearchPage } from "../pages/search/SearchPage";
 import { DiscoverPage } from "../pages/discover/DiscoverPage";
 import { MovieDetailsPage } from "../pages/movie/MovieDetailsPage";
+import { HomePage } from "../pages/home/HomePage";
 
 const router = createBrowserRouter([
     {

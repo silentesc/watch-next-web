@@ -1,14 +1,14 @@
 import { useState } from "react";
-import Input from "../../components/ui/Input";
-import Button from "../../components/ui/Button";
+import { Input } from "../../components/ui/Input";
+import { Button } from "../../components/ui/Button";
 import { register } from "../../api/auth";
 import { useMutation } from "@tanstack/react-query";
 import Error from "../../components/ui/Error";
 import Loading from "../../components/ui/Loading";
 import Info from "../../components/ui/Info";
-import InputPassword from "../../components/ui/InputPassword";
+import { InputPassword } from "../../components/ui/InputPassword";
 
-function RegisterPage() {
+export function RegisterPage() {
     const [username, setUsername] = useState("");
     const [usernameError, setUsernameError] = useState("");
 
@@ -70,7 +70,7 @@ function RegisterPage() {
                     </div>
                     <div className="mb-5">
                         <p className="text-lg">Password</p>
-                        <InputPassword onChange={e => setPassword(e.target.value)} placeholder="Password" />
+                        <InputPassword value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
                         <p className="text-error">{passwordError}</p>
                     </div>
                     <div className="mb-5">
@@ -86,5 +86,3 @@ function RegisterPage() {
         </>
     )
 }
-
-export default RegisterPage;
