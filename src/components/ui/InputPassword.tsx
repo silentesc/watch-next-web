@@ -1,22 +1,22 @@
 import { useState } from "react";
+import { Input, type InputProps } from "./Input";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputPasswordProps extends Omit<InputProps, "type"> {
     placeholder?: string;
     required?: boolean;
     onChange?: (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => void;
 }
 
-function InputPassword({ placeholder = "", required = false, onChange = () => { }, ...props }: InputProps) {
-    const [inputType, setInputType] = useState("password");
+export function InputPassword({ placeholder = "", required = false, onChange = () => { }, ...props }: InputPasswordProps) {
+    const [inputType, setInputType] = useState<"text" | "password">("password");
 
     return (
         <div className="relative">
-            <input
+            <Input
                 type={inputType}
                 required={required}
                 placeholder={placeholder}
                 onChange={onChange}
-                className="w-full border-background-tertiary border-2 p-2 outline-none bg-background-secondary"
                 {...props}
             />
             <span
@@ -28,5 +28,3 @@ function InputPassword({ placeholder = "", required = false, onChange = () => { 
         </div>
     )
 }
-
-export default InputPassword;

@@ -10,15 +10,28 @@ interface MeDropdownProps {
 }
 
 export function MeDropdown({ me, isMobile = false }: MeDropdownProps) {
-    const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
 
-    const queryClient = useQueryClient();
-    const navigate = useNavigate();
+    // Logout mutation
+    const mutation = useMutation({
+        mutationFn: logout,
+        onSuccess: () => {
+            queryClient.removeQueries({ queryKey: ["me"] });
+            navigate("/");
+        }
+    });
+
+    // Logout event
+    const onLogout = () => {
+        mutation.mutate();
+    }
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -36,20 +49,6 @@ export function MeDropdown({ me, isMobile = false }: MeDropdownProps) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isOpen]);
-
-    // Logout mutation
-    const mutation = useMutation({
-        mutationFn: logout,
-        onSuccess: () => {
-            queryClient.removeQueries({ queryKey: ["me"] });
-            navigate("/");
-        }
-    });
-
-    // Logout event
-    const onLogout = () => {
-        mutation.mutate();
-    }
 
     return (
         <div className="relative inline-block text-left" ref={dropdownRef}>

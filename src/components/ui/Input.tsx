@@ -1,4 +1,4 @@
-interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value"> {
+export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value"> {
     type?: "date" | "datetime-local" | "time" | "email" | "number" | "password" | "search" | "tel" | "text" | "url" | "number";
     placeholder?: string;
     value?: string | number | readonly string[];
@@ -6,7 +6,7 @@ interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "
     onChange?: (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => void;
 }
 
-function Input({ type = "text", placeholder = "", value = "", required = false, onChange = () => { }, ...props }: InputProps) {
+export function Input({ type = "text", placeholder = "", value = "", required = false, onChange = () => { }, ...props }: InputProps) {
     return (
         <input
             value={value}
@@ -19,5 +19,3 @@ function Input({ type = "text", placeholder = "", value = "", required = false, 
         />
     )
 }
-
-export default Input;

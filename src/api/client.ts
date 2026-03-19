@@ -8,20 +8,15 @@ api.defaults.withCredentials = true;
 api.interceptors.response.use(
     (res) => res,
     async (err) => {
-        if (!axios.isAxiosError(err)) {
-            return;
-        }
-        if (!err.response) {
-            return;
-        }
-        if (err.response.status != 401) {
-            return;
-        }
-        await logout();
+        if (axios.isAxiosError(err) && err.response) {
+            if (err.response.status === 401) {
+                await logout();
 
-        const currentPath = window.location.pathname;
-        if (currentPath !== "/login" && currentPath !== "/register") {
-            window.location.href = "/login";
+                const currentPath = window.location.pathname;
+                if (currentPath !== "/login" && currentPath !== "/register") {
+                    window.location.href = "/login";
+                }
+            }
         }
 
         return Promise.reject(err);

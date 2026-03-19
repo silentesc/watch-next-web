@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from "react";
-import Input from "../../../components/ui/Input";
-import Button from "../../../components/ui/Button";
-import { DatePicker, type DatePickerHandle } from "../../../components/ui/DatePicker";
+import { useState, useEffect } from "react";
+import { Input } from "../../../components/ui/Input";
+import { Button } from "../../../components/ui/Button";
+import { DatePicker } from "../../../components/ui/DatePicker";
 import { useLanguages } from "../../../hooks/use_languages";
 import { useGenreMovie } from "../../../hooks/use_genre_movie";
-import { MultiSelectDropdown, type MultiSelectDropdownHandle } from "../../../components/ui/MultiSelectDropdown";
+import { MultiSelectDropdown } from "../../../components/ui/MultiSelectDropdown";
 import { Dropdown } from "../../../components/ui/Dropdown";
 
 export interface MovieFilters {
@@ -36,11 +36,6 @@ const isFiltersValid = (filters: MovieFilters): boolean => {
 };
 
 export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
-    const releaseDateFromRef = useRef<DatePickerHandle>(null);
-    const releaseDateToRef = useRef<DatePickerHandle>(null);
-    const withGenresRef = useRef<MultiSelectDropdownHandle>(null);
-    const withoutGenresRef = useRef<MultiSelectDropdownHandle>(null);
-
     const [releaseDateFrom, setReleaseDateFrom] = useState<Date | undefined>(undefined);
     const [releaseDateTo, setReleaseDateTo] = useState<Date | undefined>(undefined);
     const [runtimeFrom, setRuntimeFrom] = useState<number | undefined>(undefined);
@@ -49,8 +44,8 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
     const [tmdbRatingTo, setTmdbRatingTo] = useState<number | undefined>(undefined);
     const [tmdbVoteCountFrom, setTmdbVoteCountFrom] = useState<number | undefined>(undefined);
     const [tmdbVoteCountTo, setTmdbVoteCountTo] = useState<number | undefined>(undefined);
-    const [withGenres, setWithGenres] = useState<string | undefined>(undefined);
-    const [withoutGenres, setWithoutGenres] = useState<string | undefined>(undefined);
+    const [withGenres, setWithGenres] = useState<Array<string>>([]);
+    const [withoutGenres, setWithoutGenres] = useState<Array<string>>([]);
     const [originalLanguage, setOriginalLanguage] = useState<string>("*");
 
     const languages = useLanguages();
@@ -66,18 +61,6 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
     const genres = useGenreMovie();
     const genresValues: Map<string, string> = new Map(genres.data?.genres.map(genre => [genre.id.toString(), genre.name]));
 
-    useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-
-        return () => {
-            document.body.style.overflow = '';
-        };
-    }, [isOpen]);
-
     const resetFilters = () => {
         setReleaseDateFrom(undefined);
         setReleaseDateTo(undefined);
@@ -87,13 +70,9 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
         setTmdbRatingTo(undefined);
         setTmdbVoteCountFrom(undefined);
         setTmdbVoteCountTo(undefined);
-        setWithGenres(undefined);
-        setWithoutGenres(undefined);
+        setWithGenres([]);
+        setWithoutGenres([]);
         setOriginalLanguage("*");
-        releaseDateFromRef.current?.reset();
-        releaseDateToRef.current?.reset();
-        withGenresRef.current?.reset();
-        withoutGenresRef.current?.reset();
     }
 
     const applyFilters = () => {
@@ -106,8 +85,8 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
             tmdbRatingTo,
             tmdbVoteCountFrom,
             tmdbVoteCountTo,
-            withGenres,
-            withoutGenres,
+            withGenres: withGenres.join(","),
+            withoutGenres: withoutGenres.join(","),
             originalLanguage,
         };
 
@@ -119,6 +98,18 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
 
         onFiltersChange(filters);
     };
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isOpen]);
 
     return (
         <div className={`fixed inset-0 flex justify-end z-1000 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
@@ -145,11 +136,11 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
                     <div className="relative flex gap-1">
                         <div className="flex flex-col">
                             From
-                            <DatePicker ref={releaseDateFromRef} placeholder="YYYY-MM-DD" onChange={date => setReleaseDateFrom(date || undefined)} handleRelative={false} topClassName="top-18" />
+                            <DatePicker value={releaseDateFrom} placeholder="YYYY-MM-DD" onChange={date => setReleaseDateFrom(date || undefined)} handleRelative={false} topClassName="top-18" />
                         </div>
                         <div className="flex flex-col">
                             To
-                            <DatePicker ref={releaseDateToRef} placeholder="YYYY-MM-DD" onChange={date => setReleaseDateTo(date || undefined)} alignedRight handleRelative={false} topClassName="top-18" />
+                            <DatePicker value={releaseDateTo} placeholder="YYYY-MM-DD" onChange={date => setReleaseDateTo(date || undefined)} alignedRight handleRelative={false} topClassName="top-18" />
                         </div>
                     </div>
                 </div>
@@ -194,11 +185,23 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">With Genres</span>
-                    <MultiSelectDropdown ref={withGenresRef} placeholder="Select genres..." values={genresValues} onSelect={(keys: string[]) => setWithGenres(keys.join(",") || undefined)} />
+                    <MultiSelectDropdown
+                        placeholder="Select genres..."
+                        selectedKeys={withGenres}
+                        values={genresValues}
+                        onSelect={(key: string) => setWithGenres(prev => [...prev, key])}
+                        onDeselect={(key: string) => setWithGenres(prev => prev.filter(k => k !== key))}
+                    />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Without Genres</span>
-                    <MultiSelectDropdown ref={withoutGenresRef} placeholder="Select genres..." values={genresValues} onSelect={(keys: string[]) => setWithoutGenres(keys.join(",") || undefined)} />
+                    <MultiSelectDropdown
+                        placeholder="Select genres..."
+                        selectedKeys={withoutGenres}
+                        values={genresValues}
+                        onSelect={(key: string) => setWithoutGenres(prev => [...prev, key])}
+                        onDeselect={(key: string) => setWithoutGenres(prev => prev.filter(k => k !== key))}
+                    />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Original Language</span>

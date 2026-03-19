@@ -12,22 +12,24 @@ export function SearchPage() {
         ["people", "People"],
     ]);
 
-    const [searchCategory, setSearchCategory] = useState(Array.from(values.keys())[0])
+    const [searchCategory, setSearchCategory] = useState(Array.from(values.keys())[0]);
     const [searchText, setSearchText] = useState("");
+    const [debouncedCategory, setDebouncedCategory] = useState(Array.from(values.keys())[0]);
+    const [debouncedText, setDebouncedText] = useState("");
 
     const searchMovieInfiniteQuery = useInfiniteQuery({
-        queryKey: ["searchMovie", searchText],
-        queryFn: ({ pageParam }) => search_movie(searchText, pageParam),
+        queryKey: ["searchMovie", debouncedCategory, debouncedText],
+        queryFn: ({ pageParam }) => search_movie(debouncedText, pageParam),
         initialPageParam: 1,
         getNextPageParam: (lastPage) => lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
         staleTime: 5 * 60 * 1000, // 5 minutes
-        enabled: !!searchText,
+        enabled: !!debouncedText && debouncedCategory === "movies",
         retry: false,
     });
 
-    const onSearch = (searchCategory: string, searchText: string) => {
-        setSearchCategory(searchCategory)
-        setSearchText(searchText);
+    const onSearch = () => {
+        setDebouncedCategory(searchCategory)
+        setDebouncedText(searchText);
     }
 
     const renderContent = () => {
@@ -46,7 +48,14 @@ export function SearchPage() {
         <>
             {/* Search Bar */}
             <div className="mb-5">
-                <Searchbar categories={values} onSearch={onSearch} />
+                <Searchbar
+                    category={searchCategory}
+                    text={searchText}
+                    categories={values}
+                    onSearch={onSearch}
+                    onCategoryChange={(category) => setSearchCategory(category)}
+                    onTextChange={(text) => setSearchText(text)}
+                />
             </div>
 
             {/* Display category */}

@@ -19,7 +19,9 @@ interface MovieListProps {
 export function MovieList({ infiniteQuery }: MovieListProps) {
     const observerRef = useRef<IntersectionObserver | null>(null);
     const bottomRef = useRef<HTMLDivElement>(null);
+    const allMovies: Array<MovieOverview> = [...new Map(infiniteQuery.data?.pages.flatMap(page => page.results).map(movie => [movie.id, movie]) ?? []).values()];
 
+    // Trigger fetch next when hitting bottom
     useEffect(() => {
         if (observerRef.current) observerRef.current.disconnect();
 
@@ -36,9 +38,6 @@ export function MovieList({ infiniteQuery }: MovieListProps) {
 
         return () => observerRef.current?.disconnect();
     }, [infiniteQuery.hasNextPage, infiniteQuery.isFetchingNextPage]);
-
-    // Convert to map and then back to array to prevent duplicate movie id
-    const allMovies = [...new Map(infiniteQuery.data?.pages.flatMap(page => page.results).map(movie => [movie.id, movie]) ?? []).values()];
 
     if (infiniteQuery.error) return <Error message={infiniteQuery.error.message} />;
 

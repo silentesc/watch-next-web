@@ -1,15 +1,15 @@
 import { useState } from "react";
-import Input from "../../components/ui/Input";
-import Button from "../../components/ui/Button";
+import { Input } from "../../components/ui/Input";
+import { Button } from "../../components/ui/Button";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../../api/auth";
 import Loading from "../../components/ui/Loading";
 import Info from "../../components/ui/Info";
 import Error from "../../components/ui/Error";
 import { useNavigate } from "react-router";
-import InputPassword from "../../components/ui/InputPassword";
+import { InputPassword } from "../../components/ui/InputPassword";
 
-function LoginPage() {
+export function LoginPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -41,7 +41,7 @@ function LoginPage() {
                     </div>
                     <div className="mb-5">
                         <p className="text-lg">Password</p>
-                        <InputPassword onChange={e => setPassword(e.target.value)} placeholder="Password" />
+                        <InputPassword value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
                     </div>
                     <div>
                         <Button value="Login" type="submit" />
@@ -51,5 +51,3 @@ function LoginPage() {
         </>
     )
 }
-
-export default LoginPage;
