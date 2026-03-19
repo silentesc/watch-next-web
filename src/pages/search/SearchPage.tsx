@@ -3,6 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { search_movie } from "../../api/search/movie";
 import { MovieList } from "../../components/ui/MovieList";
 import { useSearchParams } from "react-router";
+import { useEffect, useState } from "react";
 
 export function SearchPage() {
     const [queryParams, setQueryParams] = useSearchParams();
@@ -16,8 +17,8 @@ export function SearchPage() {
 
     const category = queryParams.get("category") || "";
     const text = queryParams.get("query") || "";
-    let tmpCategory = category;
-    let tmpText = text;
+    let [tmpCategory, setTmpCategory] = useState(category);
+    let [tmpText, setTmpText] = useState(text);
 
     const searchMovieInfiniteQuery = useInfiniteQuery({
         queryKey: ["searchMovie", category, text],
@@ -32,6 +33,11 @@ export function SearchPage() {
     const onSearch = () => {
         setQueryParams({ category: tmpCategory, query: tmpText });
     }
+
+    useEffect(() => {
+        setTmpCategory(category);
+        setTmpText(text);
+    }, [category, text]);
 
     const renderContent = () => {
         if (!text) return <span className="text-2xl">Search something...</span>;
@@ -54,8 +60,8 @@ export function SearchPage() {
                     text={tmpText}
                     categories={values}
                     onSearch={onSearch}
-                    onCategoryChange={(category) => tmpCategory = category}
-                    onTextChange={(text) => tmpText = text}
+                    onCategoryChange={(category) => setTmpCategory(category)}
+                    onTextChange={(text) => setTmpText(text)}
                 />
             </div>
 
