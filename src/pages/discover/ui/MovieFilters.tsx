@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Input } from "../../../components/ui/Input";
 import { Button } from "../../../components/ui/Button";
 import { DatePicker } from "../../../components/ui/DatePicker";
@@ -23,6 +23,7 @@ export interface MovieFilters {
 
 interface FiltersProps {
     isOpen: boolean,
+    filters: MovieFilters;
     onFiltersChange: (filters: MovieFilters) => void;
     onClose: () => void;
 }
@@ -35,18 +36,18 @@ const isFiltersValid = (filters: MovieFilters): boolean => {
     return true;
 };
 
-export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps) {
-    const [releaseDateFrom, setReleaseDateFrom] = useState<Date | undefined>(undefined);
-    const [releaseDateTo, setReleaseDateTo] = useState<Date | undefined>(undefined);
-    const [runtimeFrom, setRuntimeFrom] = useState<number | undefined>(undefined);
-    const [runtimeTo, setRuntimeTo] = useState<number | undefined>(undefined);
-    const [tmdbRatingFrom, setTmdbRatingFrom] = useState<number | undefined>(undefined);
-    const [tmdbRatingTo, setTmdbRatingTo] = useState<number | undefined>(undefined);
-    const [tmdbVoteCountFrom, setTmdbVoteCountFrom] = useState<number | undefined>(undefined);
-    const [tmdbVoteCountTo, setTmdbVoteCountTo] = useState<number | undefined>(undefined);
-    const [withGenres, setWithGenres] = useState<Array<string>>([]);
-    const [withoutGenres, setWithoutGenres] = useState<Array<string>>([]);
-    const [originalLanguage, setOriginalLanguage] = useState<string>("*");
+export function MovieFilters({ isOpen, filters, onFiltersChange, onClose }: FiltersProps) {
+    const [releaseDateFrom, setReleaseDateFrom] = useState<Date | undefined>(filters.releaseDateFrom);
+    const [releaseDateTo, setReleaseDateTo] = useState<Date | undefined>(filters.releaseDateTo);
+    const [runtimeFrom, setRuntimeFrom] = useState<number | undefined>(filters.runtimeFrom);
+    const [runtimeTo, setRuntimeTo] = useState<number | undefined>(filters.runtimeTo);
+    const [tmdbRatingFrom, setTmdbRatingFrom] = useState<number | undefined>(filters.tmdbRatingFrom);
+    const [tmdbRatingTo, setTmdbRatingTo] = useState<number | undefined>(filters.tmdbRatingTo);
+    const [tmdbVoteCountFrom, setTmdbVoteCountFrom] = useState<number | undefined>(filters.tmdbVoteCountFrom);
+    const [tmdbVoteCountTo, setTmdbVoteCountTo] = useState<number | undefined>(filters.tmdbVoteCountTo);
+    const [withGenres, setWithGenres] = useState<Array<string>>(filters.withGenres?.split(",") || []);
+    const [withoutGenres, setWithoutGenres] = useState<Array<string>>(filters.withoutGenres?.split(",") || []);
+    const [originalLanguage, setOriginalLanguage] = useState<string>(filters.originalLanguage || "*");
 
     const languages = useLanguages();
     const languagesValues: Map<string, string> = new Map([
@@ -59,7 +60,9 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
     ]);
 
     const genres = useGenreMovie();
-    const genresValues: Map<string, string> = new Map(genres.data?.genres.map(genre => [genre.id.toString(), genre.name]));
+    const genresValues: Map<string, string> = useMemo(() => {
+        return new Map(genres.data?.genres.map(genre => [genre.id.toString(), genre.name]));
+    }, [genres.data]);
 
     const resetFilters = () => {
         setReleaseDateFrom(undefined);
@@ -134,11 +137,11 @@ export function MovieFilters({ isOpen, onFiltersChange, onClose }: FiltersProps)
                 <div className="flex flex-col gap-2">
                     <span className="text-2xl font-medium">Release Date</span>
                     <div className="relative flex gap-1">
-                        <div className="flex flex-col">
+                        <div className="flex flex-col w-full">
                             From
                             <DatePicker value={releaseDateFrom} placeholder="YYYY-MM-DD" onChange={date => setReleaseDateFrom(date || undefined)} handleRelative={false} topClassName="top-18" />
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col w-full">
                             To
                             <DatePicker value={releaseDateTo} placeholder="YYYY-MM-DD" onChange={date => setReleaseDateTo(date || undefined)} alignedRight handleRelative={false} topClassName="top-18" />
                         </div>

@@ -5,6 +5,8 @@ import { SortBy } from "../../components/ui/SortBy";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { discover_movie } from "../../api/discover/movie";
 import { MovieList } from "../../components/ui/MovieList";
+import { useSearchParams } from "react-router";
+import { getFiltersFromParams, setParamsFromFilters } from "./utils";
 
 export function DiscoverMoviePage() {
     const sortByValues = new Map([
@@ -16,9 +18,11 @@ export function DiscoverMoviePage() {
         ["title", "Title"],
     ]);
 
-    const [currentSortBy, setCurrentSortBy] = useState("popularity");
-    const [isAsc, setIsAsc] = useState(false);
-    const [currentFilters, setCurrentFilters] = useState<MovieFilters>({} as MovieFilters);
+    const [queryParams, setQueryParams] = useSearchParams();
+
+    const currentSortBy = queryParams.get("sortBy")?.split(".")[0] || "popularity";
+    const isAsc = queryParams.get("sortBy")?.endsWith(".asc") || false;
+    const currentFilters = getFiltersFromParams(queryParams);
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
     // Memoize the filters to ensure stable object reference for queryKey
@@ -60,9 +64,17 @@ export function DiscoverMoviePage() {
     });
 
     const onFiltersChange = (filters: MovieFilters) => {
+        setParamsFromFilters(filters, `${currentSortBy}${isAsc ? ".asc" : ".desc"}`, setQueryParams);
         setIsFiltersOpen(false);
-        setCurrentFilters(filters);
     };
+
+    const onSortByChange = (sortBy: string) => {
+        setParamsFromFilters(memoizedFilters, `${sortBy}${isAsc ? ".asc" : ".desc"}`, setQueryParams);
+    }
+
+    const onAscChange = (isAsc: boolean) => {
+        setParamsFromFilters(memoizedFilters, `${currentSortBy}${isAsc ? ".asc" : ".desc"}`, setQueryParams);
+    }
 
     return (
         <>
@@ -72,8 +84,8 @@ export function DiscoverMoviePage() {
                     <SortBy
                         sortByKey={currentSortBy}
                         isAsc={isAsc} sortByValues={sortByValues}
-                        onSortByChange={sortBy => setCurrentSortBy(sortBy)}
-                        onAscChange={isAsc => setIsAsc(isAsc)}
+                        onSortByChange={onSortByChange}
+                        onAscChange={onAscChange}
                         alignedRight descDefault
                     />
                     <Button value="Filters" onClick={() => setIsFiltersOpen(!isFiltersOpen)} />
@@ -81,7 +93,7 @@ export function DiscoverMoviePage() {
             </div>
 
             {/* Filters */}
-            <MovieFilters isOpen={isFiltersOpen} onFiltersChange={onFiltersChange} onClose={() => setIsFiltersOpen(false)} />
+            <MovieFilters isOpen={isFiltersOpen} filters={memoizedFilters} onFiltersChange={onFiltersChange} onClose={() => setIsFiltersOpen(false)} />
 
             {/* Movies */}
             <MovieList infiniteQuery={discoverMovieInfiniteQuery} />
