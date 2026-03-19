@@ -97,7 +97,7 @@ export function DatePicker({ value, placeholder = "", onChange, alignedRight = f
     return (
         <div className={`${handleRelative && "relative"} w-full`} ref={datePickerRef}>
             <Button
-                value={value ? formatDate(value.getFullYear(), value.getMonth(), value.getDay()) : placeholder ? (<span className="opacity-50">{placeholder}</span>) : (<>&nbsp;</>)}
+                value={value ? formatDate(value.getFullYear(), value.getMonth(), value.getDate()) : placeholder ? (<span className="opacity-50">{placeholder}</span>) : (<>&nbsp;</>)}
                 alignment="left"
                 onClick={() => setIsOpen((prev) => !prev)}
             />

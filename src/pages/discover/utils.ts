@@ -37,11 +37,11 @@ export function setParamsFromFilters(filters: MovieFilters, sortBy: string, setQ
         newParams.set("sortBy", sortBy);
 
         if (filters.releaseDateFrom) {
-            newParams.set("releaseDateFrom", formatDate(filters.releaseDateFrom.getFullYear(), filters.releaseDateFrom.getMonth(), filters.releaseDateFrom.getDay()));
+            newParams.set("releaseDateFrom", formatDate(filters.releaseDateFrom.getFullYear(), filters.releaseDateFrom.getMonth(), filters.releaseDateFrom.getDate()));
         }
 
         if (filters.releaseDateTo) {
-            newParams.set("releaseDateTo", formatDate(filters.releaseDateTo.getFullYear(), filters.releaseDateTo.getMonth(), filters.releaseDateTo.getDay()));
+            newParams.set("releaseDateTo", formatDate(filters.releaseDateTo.getFullYear(), filters.releaseDateTo.getMonth(), filters.releaseDateTo.getDate()));
         }
 
         if (filters.runtimeFrom) {
