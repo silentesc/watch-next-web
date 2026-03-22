@@ -23,3 +23,7 @@
   - New episodes
   - Streaming availability changes
 - Achievements & Leveling system
+
+## Roadmap
+
+Implement [Backend Roadmap](https://github.com/silentesc/watch-next-backend/tree/develop?tab=readme-ov-file#roadmap)
