@@ -3,9 +3,9 @@ import { Input } from "../../components/ui/Input";
 import { Button } from "../../components/ui/Button";
 import { register } from "../../api/auth";
 import { useMutation } from "@tanstack/react-query";
-import Error from "../../components/ui/Error";
-import Loading from "../../components/ui/Loading";
-import Info from "../../components/ui/Info";
+import { Error } from "../../components/ui/Error";
+import { Loading } from "../../components/ui/Loading";
+import { Info } from "../../components/ui/Info";
 import { InputPassword } from "../../components/ui/InputPassword";
 
 export function RegisterPage() {

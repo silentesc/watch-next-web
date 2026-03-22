@@ -1,8 +1,8 @@
 import { type InfiniteData, type UseInfiniteQueryResult } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
-import Error from "./Error";
+import { Error } from "./Error";
 import { Movie } from "./Movie";
-import Loading from "./Loading";
+import { Loading } from "./Loading";
 import type { MovieOverview } from "../../api/models";
 
 export interface InfiniteDataTemplate {

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router";
-import Logo from "../ui/Logo";
+import { Logo } from "../ui/Logo";
 import { useMe } from "../../hooks/use_me";
-import Loading from "../ui/Loading";
+import { Loading } from "../ui/Loading";
 import { MeDropdown } from "./MeDropdown";
 
-function Navbar() {
+export function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const me = useMe();
@@ -137,5 +137,3 @@ function Navbar() {
         </>
     )
 }
-
-export default Navbar;

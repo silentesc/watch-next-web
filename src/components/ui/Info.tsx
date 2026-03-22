@@ -1,8 +1,8 @@
-export interface InfoProps {
+interface InfoProps {
     message: string;
 }
 
-function Info({ message }: InfoProps) {
+export function Info({ message }: InfoProps) {
     return (
         <>
             <div className="bg-success p-4 flex">
@@ -18,5 +18,3 @@ function Info({ message }: InfoProps) {
         </>
     )
 }
-
-export default Info;

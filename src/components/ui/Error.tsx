@@ -2,7 +2,7 @@ export interface ErrorProps {
     message: string;
 }
 
-function Error({ message }: ErrorProps) {
+export function Error({ message }: ErrorProps) {
     return (
         <>
             <div className="bg-error p-4 flex">
@@ -18,5 +18,3 @@ function Error({ message }: ErrorProps) {
         </>
     )
 }
-
-export default Error;
