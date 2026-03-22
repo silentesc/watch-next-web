@@ -46,30 +46,39 @@ export interface MovieOverview {
 }
 
 export interface MovieDetails {
-    id: number,
-    imdb_id?: string,
-    adult?: boolean,
-    backdrop_path?: string,
-    poster_path?: string,
-    belongs_to_collection?: Collection,
-    budget?: number,
-    genres?: Array<Genre>,
-    homepage?: string,
-    origin_country?: Array<string>,
-    original_language?: string,
-    original_title?: string,
-    overview?: string,
-    popularity?: number,
-    production_companies?: Array<ProductionCompany>,
-    production_countries?: Array<ProductionCountry>,
-    release_date?: string,
-    revenue?: number,
-    runtime?: number,
-    spoken_languages?: Array<Language>,
-    status?: string,
-    tagline?: string,
-    title?: string,
-    video?: boolean,
-    vote_average?: number,
-    vote_count?: number,
+    id: number;
+    imdb_id?: string;
+    adult?: boolean;
+    backdrop_path?: string;
+    poster_path?: string;
+    belongs_to_collection?: Collection;
+    budget?: number;
+    genres?: Array<Genre>;
+    homepage?: string;
+    origin_country?: Array<string>;
+    original_language?: string;
+    original_title?: string;
+    overview?: string;
+    popularity?: number;
+    production_companies?: Array<ProductionCompany>;
+    production_countries?: Array<ProductionCountry>;
+    release_date?: string;
+    revenue?: number;
+    runtime?: number;
+    spoken_languages?: Array<Language>;
+    status?: string;
+    tagline?: string;
+    title?: string;
+    video?: boolean;
+    vote_average?: number;
+    vote_count?: number;
+}
+
+export interface ReleaseDate {
+    certification?: string;
+    descriptors?: Array<string>;
+    iso_639_1?: string;
+    note?: string;
+    release_date: string;
+    type: number;
 }
