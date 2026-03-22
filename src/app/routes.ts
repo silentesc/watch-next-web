@@ -8,7 +8,7 @@ import { DiscoverPage } from "../pages/discover/DiscoverPage";
 import { MovieDetailsPage } from "../pages/movie/MovieDetailsPage";
 import { HomePage } from "../pages/home/HomePage";
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
     {
         path: "/",
         Component: App,
@@ -28,5 +28,3 @@ const router = createBrowserRouter([
         ],
     },
 ]);
-
-export default router;
