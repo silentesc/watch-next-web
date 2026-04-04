@@ -42,7 +42,7 @@ export function QuickInfo({ movieDetails }: QuickInfo) {
                         <div className={`text-4xl font-bold ${getRatingColor(movieDetails.vote_average)}`}>
                             {movieDetails.vote_average.toFixed(1)}
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col text-left">
                             <span className="text-sm text-foreground-secondary">/ 10</span>
                             <span className="text-xs text-foreground-secondary">
                                 {movieDetails.vote_count ? movieDetails.vote_count.toLocaleString() : "0"} votes
