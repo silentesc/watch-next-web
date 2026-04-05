@@ -24,11 +24,7 @@ export function Crew({ movieId }: CrewProps) {
         return <Error message={movieCreditsQuery.error.message} />;
     }
     if (movieCreditsQuery.isLoading) {
-        return (
-            <div className="space-y-2" aria-busy>
-                <Loading />
-            </div>
-        );
+        return <Loading />;
     }
     if (!movieCreditsQuery.data) {
         return <Error message="No data returned" />;
