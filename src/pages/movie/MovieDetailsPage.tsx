@@ -9,6 +9,8 @@ import { DetailsTable } from "./ui/DetailsTable";
 import { Overview } from "./ui/Overview";
 import { QuickInfo } from "./ui/QuickInfo";
 import { Poster } from "./ui/Poster";
+import { Crew } from "./ui/Crew";
+import { Cast } from "./ui/Cast";
 
 export function MovieDetailsPage() {
     const { id } = useParams();
@@ -75,10 +77,21 @@ export function MovieDetailsPage() {
                         <div className="my-5">
                             <Overview movieDetails={movieDetailsQuery.data} />
                         </div>
+
+                        {/* Side info as normal page content on small screens */}
+                        <div className="lg:hidden">
+                            <div className="my-2">
+                                <Collection movieDetails={movieDetailsQuery.data} />
+                            </div>
+                            <DetailsTable movieDetails={movieDetailsQuery.data} />
+                        </div>
+
+                        <Cast movieId={movieId} />
+                        <Crew movieId={movieId} />
                     </div>
 
-                    {/* Side info */}
-                    <div className="w-full mt-0 lg:w-auto lg:mt-55">
+                    {/* Side info on the side */}
+                    <div className="hidden lg:block lg:w-auto lg:mt-55">
                         <div className="my-2">
                             <Collection movieDetails={movieDetailsQuery.data} />
                         </div>
