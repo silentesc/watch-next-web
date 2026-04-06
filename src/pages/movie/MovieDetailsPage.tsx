@@ -11,6 +11,7 @@ import { QuickInfo } from "./ui/QuickInfo";
 import { Poster } from "./ui/Poster";
 import { Crew } from "./ui/Crew";
 import { Cast } from "./ui/Cast";
+import { Recommendations } from "./ui/Recommendations";
 
 export function MovieDetailsPage() {
     const { id } = useParams();
@@ -98,6 +99,8 @@ export function MovieDetailsPage() {
                         <DetailsTable movieDetails={movieDetailsQuery.data} />
                     </div>
                 </div>
+
+                <Recommendations movieId={movieId} />
             </div>
         </>
     );
