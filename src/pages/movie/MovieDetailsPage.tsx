@@ -12,6 +12,7 @@ import { Poster } from "./ui/Poster";
 import { Crew } from "./ui/Crew";
 import { Cast } from "./ui/Cast";
 import { Recommendations } from "./ui/Recommendations";
+import { Similar } from "./ui/Similar";
 
 export function MovieDetailsPage() {
     const { id } = useParams();
@@ -101,6 +102,7 @@ export function MovieDetailsPage() {
                 </div>
 
                 <Recommendations movieId={movieId} />
+                <Similar movieId={movieId} />
             </div>
         </>
     );
