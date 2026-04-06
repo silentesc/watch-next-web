@@ -3,7 +3,6 @@ import { useParams } from "react-router";
 import { getMovieDetails } from "../../api/movie/details";
 import { Error } from "../../components/ui/Error";
 import { Loading } from "../../components/ui/Loading";
-import { useEffect } from "react";
 import { Collection } from "./ui/Collection";
 import { DetailsTable } from "./ui/DetailsTable";
 import { Overview } from "./ui/Overview";
@@ -26,10 +25,6 @@ export function MovieDetailsPage() {
         retry: false,
         enabled: movieId !== null,
     });
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
 
     if (!movieId) {
         return <Error message="Unknown movie" />

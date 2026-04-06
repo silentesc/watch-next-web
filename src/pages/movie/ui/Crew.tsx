@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Error } from "../../../components/ui/Error";
 import { Loading } from "../../../components/ui/Loading";
 import { useMovieCredits } from "../../../hooks/use_credits";
@@ -18,7 +17,6 @@ function Avatar({ name, src }: { name: string; src?: string }) {
 
 export function Crew({ movieId }: CrewProps) {
     const movieCreditsQuery = useMovieCredits(movieId);
-    const [showAll, setShowAll] = useState(false);
 
     if (movieCreditsQuery.error) {
         return <Error message={movieCreditsQuery.error.message} />;
@@ -30,17 +28,20 @@ export function Crew({ movieId }: CrewProps) {
         return <Error message="No data returned" />;
     }
 
+    const seeMore = () => {
+
+    }
+
     const crew = movieCreditsQuery.data.crew;
+    const topCrew = crew.slice(0, 5);
+    const hintCrew = crew.length >= 5 ? crew[5] : undefined;
 
     return (
         <div className="my-5 flex flex-col gap-3">
-            <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold">Crew</h2>
-                <span className="cursor-pointer" onClick={() => setShowAll(!showAll)}>{showAll ? "Show less" : `Show all ${crew.length}`}</span>
-            </div>
+            <h2 className="text-2xl font-bold">Crew</h2>
             <div className="flex flex-col gap-3 bg-background-secondary rounded-lg">
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-3">
-                    {crew.slice(0, showAll ? crew.length : 6).map((c) => (
+                    {topCrew.map((c) => (
                         <div key={`${c.name}-${c.job || ""}`} className="flex items-center gap-3 p-2 bg-background-primary rounded-md">
                             <Avatar name={c.name || "Unknown"} src={c.profile_path ? `https://image.tmdb.org/t/p/w92${c.profile_path}` : undefined} />
                             <div>
@@ -49,6 +50,24 @@ export function Crew({ movieId }: CrewProps) {
                             </div>
                         </div>
                     ))}
+                    {hintCrew && (
+                        <div className="relative">
+                            <div className="flex items-center gap-3 p-2 bg-background-primary rounded-md blur-sm select-none">
+                                <Avatar name={hintCrew.name || "Unknown"} src={hintCrew.profile_path ? `https://image.tmdb.org/t/p/w92${hintCrew.profile_path}` : undefined} />
+                                <div>
+                                    <p className="text-sm font-medium text-foreground-primary">{hintCrew.name}</p>
+                                    <span className="text-xs text-foreground-secondary">{hintCrew.job || ""}</span>
+                                </div>
+                            </div>
+                            <div className="absolute top-1/2 left-1/2 -translate-1/2 cursor-pointer flex gap-1 items-center">
+                                <span className="font-semibold" onClick={seeMore}>See more</span>
+                                <svg viewBox="0 0 24 24" fill="currentColor" className="w-7">
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
