@@ -121,7 +121,7 @@ export function DetailsTable({ movieDetails }: DetailsTableProps) {
                         releaseDates ? (
                             releaseDates.map(releaseDate => {
                                 return (
-                                    <p key={formatDate(releaseDate.release_date)} className="flex items-center gap-2 justify-end">
+                                    <p key={`${formatDate(releaseDate.release_date)}-${releaseDate.type}-${releaseDate.note}`} className="flex items-center gap-2 justify-end">
                                         <span title={`${formatReleaseType(releaseDate.type)} ${releaseDate.note && `(${releaseDate.note})`}`} className="flex items-center">
                                             {releaseTypeSvg(releaseDate.type)}
                                         </span>
