@@ -36,6 +36,10 @@ export function Crew({ movieId }: CrewProps) {
     const topCrew = crew.slice(0, 5);
     const hintCrew = crew.length >= 5 ? crew[5] : undefined;
 
+    if (crew.length === 0) {
+        return <></>;
+    }
+
     return (
         <div className="my-5 flex flex-col gap-3">
             <h2 className="text-2xl font-bold">Crew</h2>

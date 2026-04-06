@@ -36,6 +36,10 @@ export function Cast({ movieId }: CastProps) {
     const topCast = cast.slice(0, 5);
     const hintCast = cast.length >= 5 ? cast[5] : undefined;
 
+    if (cast.length === 0) {
+        return <></>;
+    }
+
     return (
         <div className="my-5 flex flex-col gap-3">
             <h2 className="text-2xl font-bold">Cast</h2>
