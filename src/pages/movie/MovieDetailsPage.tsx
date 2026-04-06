@@ -1,6 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
-import { getMovieDetails } from "../../api/movie/details";
 import { Error } from "../../components/ui/Error";
 import { Loading } from "../../components/ui/Loading";
 import { Collection } from "./ui/Collection";
@@ -12,19 +10,14 @@ import { Crew } from "./ui/Crew";
 import { Cast } from "./ui/Cast";
 import { Recommendations } from "./ui/Recommendations";
 import { Similar } from "./ui/Similar";
+import { useMovieDetails } from "../../hooks/use_movie_details";
 
 export function MovieDetailsPage() {
     const { id } = useParams();
 
     const movieId: number | null = id && !isNaN(Number(id)) ? Number(id) : null;
 
-    const movieDetailsQuery = useQuery({
-        queryKey: ["movieDetailsQuery", movieId],
-        queryFn: () => getMovieDetails(movieId!),
-        staleTime: 5 * 60 * 1000,
-        retry: false,
-        enabled: movieId !== null,
-    });
+    const movieDetailsQuery = useMovieDetails(movieId);
 
     if (!movieId) {
         return <Error message="Unknown movie" />
