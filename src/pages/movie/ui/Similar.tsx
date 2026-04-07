@@ -1,21 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
-import { getSimilarMovies } from "../../../api/movie/similar";
 import { Loading } from "../../../components/ui/Loading";
 import { Error } from "../../../components/ui/Error";
 import type { MovieOverview } from "../../../api/models";
 import { Movie } from "../../../components/ui/Movie";
+import { useSimilarMovies } from "../../../hooks/use_similar_movies";
+import { useNavigate } from "react-router";
 
 interface SimilarProps {
     movieId: number;
 }
 
 export function Similar({ movieId }: SimilarProps) {
-    const similarMoviesQuery = useQuery({
-        queryKey: ["similarMovies", movieId],
-        queryFn: () => getSimilarMovies(movieId),
-        staleTime: 5 * 60 * 1000, // 5 minutes
-        retry: false,
-    });
+    const navigate = useNavigate();
+
+    const similarMoviesQuery = useSimilarMovies(movieId);
 
     if (similarMoviesQuery.error) {
         return <Error message={similarMoviesQuery.error.message} />;
@@ -27,7 +24,7 @@ export function Similar({ movieId }: SimilarProps) {
         return <Error message="No data returned" />;
     }
 
-    const allMovies: Array<MovieOverview> = similarMoviesQuery.data.results;
+    const allMovies: Array<MovieOverview> = similarMoviesQuery.data.pages[0].results;
     const shownMovies = allMovies.slice(0, allMovies.length - 1);
     const lastMovie = allMovies[allMovies.length - 1];
 
@@ -36,7 +33,7 @@ export function Similar({ movieId }: SimilarProps) {
     }
 
     const seeMore = () => {
-
+        navigate(`/movie/${movieId}/similar`);
     }
 
     return (

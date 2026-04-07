@@ -7,6 +7,10 @@ import { SearchPage } from "../pages/search/SearchPage";
 import { DiscoverPage } from "../pages/discover/DiscoverPage";
 import { MovieDetailsPage } from "../pages/movie/MovieDetailsPage";
 import { HomePage } from "../pages/home/HomePage";
+import { CrewPage } from "../pages/movie/CrewPage";
+import { CastPage } from "../pages/movie/CastPage";
+import { RecommendationsPage } from "../pages/movie/RecommendationsPage";
+import { SimilarPage } from "../pages/movie/SimilarPage";
 
 export const router = createBrowserRouter([
     {
@@ -23,7 +27,16 @@ export const router = createBrowserRouter([
                     { path: "movie", Component: DiscoverMoviePage },
                 ]
             },
-            { path: "/movie/:id", Component: MovieDetailsPage },
+            {
+                path: "/movie/:id",
+                children: [
+                    { index: true, Component: MovieDetailsPage },
+                    { path: "crew", Component: CrewPage },
+                    { path: "cast", Component: CastPage },
+                    { path: "recommendations", Component: RecommendationsPage },
+                    { path: "similar", Component: SimilarPage },
+                ]
+            },
             { path: "search", Component: SearchPage },
         ],
     },
