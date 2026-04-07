@@ -8,6 +8,7 @@ import { DiscoverPage } from "../pages/discover/DiscoverPage";
 import { MovieDetailsPage } from "../pages/movie/MovieDetailsPage";
 import { HomePage } from "../pages/home/HomePage";
 import { CrewPage } from "../pages/movie/CrewPage";
+import { CastPage } from "../pages/movie/CastPage";
 
 export const router = createBrowserRouter([
     {
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
                 children: [
                     { index: true, Component: MovieDetailsPage },
                     { path: "crew", Component: CrewPage },
+                    { path: "cast", Component: CastPage },
                 ]
             },
             { path: "search", Component: SearchPage },
