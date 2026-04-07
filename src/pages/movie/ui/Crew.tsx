@@ -24,7 +24,7 @@ export function Crew({ movieId }: CrewProps) {
     }
 
     const seeMore = () => {
-        navigate(`/movie/${movieId}/crew`)
+        navigate(`/movie/${movieId}/crew`);
     }
 
     const crew = movieCreditsQuery.data.crew;
