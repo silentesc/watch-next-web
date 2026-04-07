@@ -3,7 +3,7 @@ import { Error } from "../../../components/ui/Error";
 import type { MovieOverview } from "../../../api/models";
 import { Movie } from "../../../components/ui/Movie";
 import { useNavigate } from "react-router";
-import { useMovieRecommendations } from "../../../hooks/use_recommendations";
+import { useMovieRecommendations } from "../../../hooks/use_movie_recommendations";
 
 interface RecommendationsProps {
     movieId: number;

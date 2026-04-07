@@ -3,7 +3,7 @@ import { Error } from "../../components/ui/Error";
 import { Loading } from "../../components/ui/Loading";
 import { useMovieDetails } from "../../hooks/use_movie_details";
 import { MovieList } from "../../components/ui/MovieList";
-import { useMovieRecommendations } from "../../hooks/use_recommendations";
+import { useMovieRecommendations } from "../../hooks/use_movie_recommendations";
 
 export function RecommendationsPage() {
     const navigate = useNavigate();
