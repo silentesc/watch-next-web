@@ -45,7 +45,7 @@ export function RecommendationsPage() {
                 </svg>
                 <span className="text-lg text-nowrap">Back to {movieDetails.title}</span>
             </div>
-            <h2 className="text-2xl font-bold">Crew</h2>
+            <h2 className="text-2xl font-bold">Recommendations</h2>
             <MovieList infiniteQuery={movieRecommendationsInfiniteQuery} />
         </div>
     );
