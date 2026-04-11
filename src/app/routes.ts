@@ -12,6 +12,7 @@ import { CastPage } from "../pages/movie/CastPage";
 import { RecommendationsPage } from "../pages/movie/RecommendationsPage";
 import { SimilarPage } from "../pages/movie/SimilarPage";
 import { CollectionDetailsPage } from "../pages/collection/CollectionDetailsPage";
+import { TrendingMoviePage } from "../pages/discover/TrendingMoviePage";
 
 export const router = createBrowserRouter([
     {
@@ -26,6 +27,12 @@ export const router = createBrowserRouter([
                 children: [
                     { index: true, Component: DiscoverPage },
                     { path: "movie", Component: DiscoverMoviePage },
+                    {
+                        path: "trending",
+                        children: [
+                            { path: "movie/:timeWindow", Component: TrendingMoviePage },
+                        ]
+                    },
                 ]
             },
             {
