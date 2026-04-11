@@ -21,7 +21,7 @@ export interface ProductionCountry {
     iso_3166_1: string;
 }
 
-export interface Collection {
+export interface CollectionOverview {
     id: number;
     name: string;
     poster_path?: string;
@@ -51,7 +51,7 @@ export interface MovieDetails {
     adult?: boolean;
     backdrop_path?: string;
     poster_path?: string;
-    belongs_to_collection?: Collection;
+    belongs_to_collection?: CollectionOverview;
     budget?: number;
     genres?: Array<Genre>;
     homepage?: string;
