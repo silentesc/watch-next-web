@@ -2,11 +2,10 @@ import { useState, useMemo } from "react";
 import { Button } from "../../components/ui/Button";
 import { MovieFilters } from "./ui/MovieFilters";
 import { SortBy } from "../../components/ui/SortBy";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { discover_movie } from "../../api/discover/movie";
 import { MovieList } from "../../components/ui/MovieList";
 import { useSearchParams } from "react-router";
 import { getFiltersFromParams, setParamsFromFilters } from "./utils";
+import { useDiscoverMovies } from "../../hooks/use_discover_movies";
 
 export function DiscoverMoviePage() {
     const sortByValues = new Map([
@@ -40,27 +39,19 @@ export function DiscoverMoviePage() {
         currentFilters.originalLanguage,
     ]);
 
-    const discoverMovieInfiniteQuery = useInfiniteQuery({
-        queryKey: ["discoverMovie", currentSortBy, isAsc, memoizedFilters],
-        queryFn: ({ pageParam }) => discover_movie({
-            page: pageParam,
-            primary_release_date_gte: memoizedFilters.releaseDateFrom,
-            primary_release_date_lte: memoizedFilters.releaseDateTo,
-            sort_by: `${currentSortBy}${isAsc ? ".asc" : ".desc"}`,
-            vote_average_gte: memoizedFilters.tmdbRatingFrom,
-            vote_average_lte: memoizedFilters.tmdbRatingTo,
-            vote_count_gte: memoizedFilters.tmdbVoteCountFrom,
-            vote_count_lte: memoizedFilters.tmdbVoteCountTo,
-            with_genres: memoizedFilters.withGenres,
-            without_genres: memoizedFilters.withoutGenres,
-            with_runtime_gte: memoizedFilters.runtimeFrom,
-            with_runtime_lte: memoizedFilters.runtimeTo,
-            with_original_language: memoizedFilters.originalLanguage,
-        }),
-        initialPageParam: 1,
-        getNextPageParam: (lastPage) => lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
-        staleTime: 5 * 60 * 1000, // 5 minutes
-        retry: false,
+    const discoverMovieInfiniteQuery = useDiscoverMovies({
+        primary_release_date_gte: memoizedFilters.releaseDateFrom,
+        primary_release_date_lte: memoizedFilters.releaseDateTo,
+        sort_by: `${currentSortBy}${isAsc ? ".asc" : ".desc"}`,
+        vote_average_gte: memoizedFilters.tmdbRatingFrom,
+        vote_average_lte: memoizedFilters.tmdbRatingTo,
+        vote_count_gte: memoizedFilters.tmdbVoteCountFrom,
+        vote_count_lte: memoizedFilters.tmdbVoteCountTo,
+        with_genres: memoizedFilters.withGenres,
+        without_genres: memoizedFilters.withoutGenres,
+        with_runtime_gte: memoizedFilters.runtimeFrom,
+        with_runtime_lte: memoizedFilters.runtimeTo,
+        with_original_language: memoizedFilters.originalLanguage,
     });
 
     const onFiltersChange = (filters: MovieFilters) => {
