@@ -11,6 +11,7 @@ import { CrewPage } from "../pages/movie/CrewPage";
 import { CastPage } from "../pages/movie/CastPage";
 import { RecommendationsPage } from "../pages/movie/RecommendationsPage";
 import { SimilarPage } from "../pages/movie/SimilarPage";
+import { CollectionDetailsPage } from "../pages/collection/CollectionDetailsPage";
 
 export const router = createBrowserRouter([
     {
@@ -38,6 +39,7 @@ export const router = createBrowserRouter([
                 ]
             },
             { path: "search", Component: SearchPage },
+            { path: "collection/:id", Component: CollectionDetailsPage },
         ],
     },
 ]);

@@ -28,6 +28,17 @@ export interface CollectionOverview {
     backdrop_path?: string;
 }
 
+export interface CollectionDetails {
+    id: number;
+    name: string;
+    original_language?: string;
+    original_name?: string;
+    overview?: string;
+    poster_path?: string;
+    backdrop_path?: string;
+    parts: Array<MovieOverview>;
+}
+
 export interface MovieOverview {
     adult?: boolean;
     backdrop_path?: string;
