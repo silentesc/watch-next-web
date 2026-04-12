@@ -37,7 +37,7 @@ export function Recommendations({ movieId }: RecommendationsProps) {
     return (
         <div className="my-5 flex flex-col gap-3">
             <h2 className="text-2xl font-bold">Recommendations</h2>
-            <MovieListVertical movies={allMovies} onSeeMoreClick={seeMore} />
+            <MovieListVertical movies={allMovies} seeMoreLinkHint={`/movie/${movieId}/recommendations`} onSeeMoreClick={seeMore} />
         </div>
     );
 }

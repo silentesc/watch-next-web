@@ -12,11 +12,11 @@ export function DiscoverPage() {
     const trendingMoviesQuery = useTrendingMovies("day");
 
     const discoverMovies = () => {
-        navigate("movie");
+        navigate("/discover/movie");
     }
 
     const trendingMovies = () => {
-        navigate("trending/movie/day");
+        navigate("/discover/trending/movie/day");
     }
 
     return (
@@ -39,7 +39,7 @@ export function DiscoverPage() {
                                 ? <Loading />
                                 : !discoverMovieQuery.data
                                     ? <Error message="No data returned" />
-                                    : <MovieListVertical movies={discoverMovieQuery.data.pages[0].results} onSeeMoreClick={discoverMovies} />
+                                    : <MovieListVertical movies={discoverMovieQuery.data.pages[0].results} seeMoreLinkHint="/discover/movie" onSeeMoreClick={discoverMovies} />
                     }
                 </div>
                 {/* Trending Movies */}
@@ -60,7 +60,7 @@ export function DiscoverPage() {
                                 ? <Loading />
                                 : !trendingMoviesQuery.data
                                     ? <Error message="No data returned" />
-                                    : <MovieListVertical movies={trendingMoviesQuery.data.pages[0].results} onSeeMoreClick={trendingMovies} />
+                                    : <MovieListVertical movies={trendingMoviesQuery.data.pages[0].results} seeMoreLinkHint="/discover/trending/movie/day" onSeeMoreClick={trendingMovies} />
                     }
                 </div>
             </div>
