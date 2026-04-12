@@ -9,12 +9,12 @@ import { useSearchCollection } from "../../hooks/use_search_collection";
 export function SearchPage() {
     const [queryParams, setQueryParams] = useSearchParams();
 
-    const values = new Map([
+    const categories = new Map([
         ["movies", "Movies"],
         ["collections", "Collections"],
     ]);
 
-    const category = queryParams.get("category") || "";
+    const category = queryParams.get("category") || Array.from(categories.keys())[0];
     const text = queryParams.get("query") || "";
     let [tmpCategory, setTmpCategory] = useState(category);
     let [tmpText, setTmpText] = useState(text);
@@ -48,7 +48,7 @@ export function SearchPage() {
                 <Searchbar
                     category={tmpCategory}
                     text={tmpText}
-                    categories={values}
+                    categories={categories}
                     onSearch={onSearch}
                     onCategoryChange={(category) => setTmpCategory(category)}
                     onTextChange={(text) => setTmpText(text)}

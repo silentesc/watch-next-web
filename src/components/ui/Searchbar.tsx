@@ -3,7 +3,7 @@ import { Button } from "./Button";
 import { Dropdown } from "./Dropdown";
 
 interface SearchbarProps {
-    category?: string;
+    category: string;
     text?: string;
     categories: Map<string, string>;
     onSearch: () => void;
@@ -12,8 +12,6 @@ interface SearchbarProps {
 }
 
 export function Searchbar({ category, text = "", categories, onSearch, onCategoryChange, onTextChange }: SearchbarProps) {
-    if (!category) category = Array.from(categories.keys())[0];
-
     const onSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!text) {
