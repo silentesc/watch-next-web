@@ -1,18 +1,17 @@
 import { Searchbar } from "../../components/ui/Searchbar";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { search_movie } from "../../api/search/movie";
 import { MovieList } from "../../components/ui/MovieList";
 import { useSearchParams } from "react-router";
 import { useEffect, useState } from "react";
+import { useSearchMovie } from "../../hooks/use_search_movie";
+import { CollectionList } from "../../components/ui/CollectionList";
+import { useSearchCollection } from "../../hooks/use_search_collection";
 
 export function SearchPage() {
     const [queryParams, setQueryParams] = useSearchParams();
 
     const values = new Map([
-        ["all", "All"],
         ["movies", "Movies"],
-        ["tv_shows", "TV Shows"],
-        ["people", "People"],
+        ["collections", "Collections"],
     ]);
 
     const category = queryParams.get("category") || "";
@@ -20,15 +19,8 @@ export function SearchPage() {
     let [tmpCategory, setTmpCategory] = useState(category);
     let [tmpText, setTmpText] = useState(text);
 
-    const searchMovieInfiniteQuery = useInfiniteQuery({
-        queryKey: ["searchMovie", category, text],
-        queryFn: ({ pageParam }) => search_movie(text, pageParam),
-        initialPageParam: 1,
-        getNextPageParam: (lastPage) => lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
-        staleTime: 5 * 60 * 1000, // 5 minutes
-        enabled: !!text && category === "movies",
-        retry: false,
-    });
+    const searchMovieInfiniteQuery = useSearchMovie(category, text);
+    const searchCollectionInfiniteQuery = useSearchCollection(category, text);
 
     const onSearch = () => {
         setQueryParams({ category: tmpCategory, query: tmpText });
@@ -42,12 +34,10 @@ export function SearchPage() {
     const renderContent = () => {
         if (!text) return <span className="text-2xl">Search something...</span>;
 
-        switch (tmpCategory) {
-            case "all": return <p>Not implemented yet</p>;
+        switch (category) {
             case "movies": return <MovieList infiniteQuery={searchMovieInfiniteQuery} />;
-            case "tv_shows": return <p>Not implemented yet</p>;
-            case "people": return <p>Not implemented yet</p>;
-            default: return <span className="text-2xl">Category {tmpCategory} not found</span>;
+            case "collections": return <CollectionList infiniteQuery={searchCollectionInfiniteQuery} />;
+            default: return <span className="text-2xl">Category {category} not found</span>;
         }
     };
 
