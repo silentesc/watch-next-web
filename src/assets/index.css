@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-    --color-primary: #6200EE;
-    --color-primary-variant: #3700B3;
-    --color-secondary: #03DAC6;
-    --color-secondary-variant: #018786;
-    --color-error: #B00020;
+    --color-primary: #3a31d8;
+    --color-secondary: #252439;
+
+    --color-success: #2ec260;
+    --color-error: #cb2f4c;
 
     --color-foreground-primary: rgba(255, 255, 255, 87);
     --color-foreground-secondary: rgba(200, 200, 200, 87);
+
     --color-background-primary: rgb(28, 28, 28);
     --color-background-secondary: rgb(40, 40, 40);
+    --color-background-tertiary: rgb(52, 52, 52);
 }
 
 html,

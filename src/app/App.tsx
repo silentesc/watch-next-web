@@ -1,15 +1,13 @@
 import { Outlet } from "react-router";
-import Navbar from "../components/layouts/Navbar";
+import { Navbar } from "../components/layouts/Navbar";
 
-function App() {
+export function App() {
     return (
         <>
             <Navbar />
-            <div className="mx-auto max-w-7xl">
+            <div className="mx-auto max-w-7xl p-2">
                 <Outlet />
             </div>
         </>
     )
 }
-
-export default App;

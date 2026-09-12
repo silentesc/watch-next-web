@@ -3,9 +3,11 @@
 ### :rotating_light: This app is in active development
 
 ## Planned Features
-- Watchlist (Plan to Watch, Watching, Completed) with categories (e.g. in Plan to Watch, categorize for "action" or "romance")
+- Watchlist (Plan to Watch, Watching, Completed)
 - External metadata integreation (covers, description, cast, ratings, etc.)
 - Support for Movies, TV Shows, Anime
+- Tag media with custom tags (e.g. "action" or "romance")
+- Make collections (e.g. different shows and movies that belong together)
 - Discovery & Recommendation
   - Based on
     - Watch history
@@ -21,3 +23,7 @@
   - New episodes
   - Streaming availability changes
 - Achievements & Leveling system
+
+## Roadmap
+
+Implement [Backend Roadmap](https://github.com/silentesc/watch-next-backend/tree/develop?tab=readme-ov-file#roadmap)
