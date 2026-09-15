@@ -4,15 +4,22 @@ import { MovieListVertical } from "../../components/ui/MovieListVertical";
 import { useNavigate } from "react-router";
 import { useDiscoverMovies } from "../../hooks/use_discover_movies";
 import { useTrendingMovies } from "../../hooks/use_trending_movies";
+import { useDiscoverTvSeries } from "../../hooks/use_discover_tv_series";
+import { TvSeriesListVertical } from "../../components/ui/TvSeriesListVertical";
 
 export function DiscoverPage() {
     const navigate = useNavigate();
 
     const discoverMovieQuery = useDiscoverMovies({ sort_by: "popularity.desc" });
+    const discoverTvSeriesQuery = useDiscoverTvSeries({ sort_by: "popularity.desc" });
     const trendingMoviesQuery = useTrendingMovies("day");
 
     const discoverMovies = () => {
         navigate("/discover/movie");
+    }
+
+    const discoverTvSeries = () => {
+        navigate("/discover/tv");
     }
 
     const trendingMovies = () => {
@@ -40,6 +47,26 @@ export function DiscoverPage() {
                                 : !discoverMovieQuery.data
                                     ? <Error message="No data returned" />
                                     : <MovieListVertical movies={discoverMovieQuery.data.pages[0].results} seeMoreLinkHint="/discover/movie" onSeeMoreClick={discoverMovies} />
+                    }
+                </div>
+                {/* Popular TV Series */}
+                <div>
+                    <div className="my-3 flex gap-1 items-center cursor-pointer w-max" onClick={discoverTvSeries}>
+                        <span className="text-2xl font-bold">Popular TV Series</span>
+                        <svg viewBox="0 0 24 24" fill="currentColor" className="w-7">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z">
+                            </path>
+                        </svg>
+                    </div>
+
+                    {
+                        discoverTvSeriesQuery.error
+                            ? <Error message={discoverTvSeriesQuery.error.message} />
+                            : discoverTvSeriesQuery.isLoading
+                                ? <Loading />
+                                : !discoverTvSeriesQuery.data
+                                    ? <Error message="No data returned" />
+                                    : <TvSeriesListVertical tvSeries={discoverTvSeriesQuery.data.pages[0].results} seeMoreLinkHint="/discover/tv" onSeeMoreClick={discoverTvSeries} />
                     }
                 </div>
                 {/* Trending Movies */}
