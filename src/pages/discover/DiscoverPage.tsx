@@ -6,6 +6,7 @@ import { useDiscoverMovies } from "../../hooks/use_discover_movies";
 import { useTrendingMovies } from "../../hooks/use_trending_movies";
 import { useDiscoverTvSeries } from "../../hooks/use_discover_tv_series";
 import { TvSeriesListVertical } from "../../components/ui/TvSeriesListVertical";
+import { useTrendingTvSeries } from "../../hooks/use_trending_tv_series";
 
 export function DiscoverPage() {
     const navigate = useNavigate();
@@ -13,6 +14,7 @@ export function DiscoverPage() {
     const discoverMovieQuery = useDiscoverMovies({ sort_by: "popularity.desc" });
     const discoverTvSeriesQuery = useDiscoverTvSeries({ sort_by: "popularity.desc" });
     const trendingMoviesQuery = useTrendingMovies("day");
+    const trendingTvSeriesQuery = useTrendingTvSeries("day");
 
     const discoverMovies = () => {
         navigate("/discover/movie");
@@ -24,6 +26,10 @@ export function DiscoverPage() {
 
     const trendingMovies = () => {
         navigate("/discover/trending/movie/day");
+    }
+
+    const trendingTvSeries = () => {
+        navigate("/discover/trending/tv/day");
     }
 
     return (
@@ -88,6 +94,27 @@ export function DiscoverPage() {
                                 : !trendingMoviesQuery.data
                                     ? <Error message="No data returned" />
                                     : <MovieListVertical movies={trendingMoviesQuery.data.pages[0].results} seeMoreLinkHint="/discover/trending/movie/day" onSeeMoreClick={trendingMovies} />
+                    }
+                </div>
+                {/* Trending TV Series */}
+                <div>
+                    <div className="my-3 flex gap-1 items-center cursor-pointer w-max" onClick={trendingTvSeries}>
+                        <span className="text-2xl font-bold">Trending TV Series</span>
+                        <svg viewBox="0 0 24 24" fill="currentColor" className="w-7">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z">
+                            </path>
+                        </svg>
+                    </div>
+
+                    {/* Check for stuff */}
+                    {
+                        trendingTvSeriesQuery.error
+                            ? <Error message={trendingTvSeriesQuery.error.message} />
+                            : trendingTvSeriesQuery.isLoading
+                                ? <Loading />
+                                : !trendingTvSeriesQuery.data
+                                    ? <Error message="No data returned" />
+                                    : <TvSeriesListVertical tvSeries={trendingTvSeriesQuery.data.pages[0].results} seeMoreLinkHint="/discover/trending/tv/day" onSeeMoreClick={trendingTvSeries} />
                     }
                 </div>
             </div>
