@@ -122,3 +122,21 @@ export interface Crew {
     department?: string;
     job?: string;
 }
+
+export interface TvSeriesOverview {
+    adult?: boolean;
+    backdrop_path?: string;
+    media_type?: string;
+    poster_path?: string;
+    genre_ids?: Array<number>;
+    id?: number;
+    original_language?: string;
+    original_name?: string;
+    name?: string;
+    overview?: string;
+    popularity?: number;
+    first_air_date?: string;
+    vote_average?: number;
+    vote_count?: number;
+    origin_country?: Array<string>;
+}
