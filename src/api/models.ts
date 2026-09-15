@@ -148,3 +148,128 @@ export interface TvSeriesOverview {
     vote_count?: number;
     origin_country?: Array<string>;
 }
+
+export interface TvSeriesDetails {
+    adult?: boolean;
+    backdrop_path?: string;
+    created_by?: Array<TvSeriesCreator>;
+    episode_run_time?: Array<number>;
+    first_air_date?: string;
+    genres?: Array<Genre>;
+    homepage?: string;
+    id?: number;
+    in_production?: boolean;
+    languages?: Array<string>;
+    last_air_date?: string;
+    last_episode_to_air?: TvEpisodeOverview;
+    name?: string;
+    networks?: Array<TvSeriesNetwork>;
+    next_episode_to_air?: TvEpisodeOverview;
+    number_of_episodes?: number;
+    number_of_seasons?: number;
+    origin_country?: Array<string>;
+    original_language?: string;
+    original_name?: string;
+    overview?: string;
+    popularity?: number;
+    poster_path?: string;
+    production_companies?: Array<TvSeriesProductionCompany>;
+    production_countries?: Array<Country>;
+    seasons?: Array<TvSeasonOverview>;
+    spoken_languages?: Array<Language>;
+    status?: string;
+    tagline?: string;
+    type?: string;
+    vote_average?: number;
+    vote_count?: number;
+}
+
+export interface TvSeriesCreator {
+    id?: number;
+    credit_id?: string;
+    name?: string;
+    gender?: number;
+    profile_path?: string;
+}
+
+export interface TvSeriesNetwork {
+    id?: number;
+    logo_path?: string;
+    name?: string;
+    origin_country?: string;
+}
+
+export interface TvSeriesProductionCompany {
+    id?: number;
+    logo_path?: string;
+    name?: string;
+    origin_country?: string;
+}
+
+// TV Season
+
+export interface TvSeasonOverview {
+    air_date?: string;
+    episode_count?: number;
+    id?: number;
+    name?: string;
+    overview?: string;
+    poster_path?: string;
+    season_number?: number;
+    vote_average?: number;
+}
+
+export interface TvSeasonDetails {
+    _id?: string;
+    air_date?: string;
+    episodes?: Array<TvEpisodeDetails>;
+    name?: string;
+    networks?: Array<TvSeasonNetwork>;
+    overview?: string;
+    id?: number;
+    poster_path?: string;
+    season_number?: number;
+    vote_average?: number;
+}
+
+export interface TvSeasonNetwork {
+    id?: number;
+    logo_path?: string;
+    name?: string;
+    origin_country?: string;
+}
+
+// TV Episode
+
+export interface TvEpisodeOverview {
+    air_date?: string;
+    episode_number?: number;
+    id?: number;
+    name?: string;
+    overview?: string;
+    production_code?: string;
+    runtime?: number;
+    season_number?: number;
+    show_id?: number;
+    still_path?: string;
+    vote_average?: number;
+    vote_count?: number;
+}
+
+export interface TvEpisodeDetails {
+    air_date?: string;
+    episode_number?: number;
+    episode_type?: string;
+    id?: number;
+    name?: string;
+    overview?: string;
+    production_code?: string;
+    runtime?: number;
+    season_number?: number;
+    show_id?: number;
+    still_path?: string;
+    vote_average?: number;
+    vote_count?: number;
+    crew?: Array<Crew>;
+    guest_stars?: Array<Cast>;
+}
