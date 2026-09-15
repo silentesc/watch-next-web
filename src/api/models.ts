@@ -1,3 +1,5 @@
+// Common
+
 export interface Language {
     iso_639_1: string;
     english_name: string;
@@ -9,17 +11,50 @@ export interface Genre {
     name: string;
 }
 
-export interface ProductionCompany {
+export interface Cast {
+    adult?: boolean;
+    gender?: number;
     id: number;
+    known_for_department?: string;
     name?: string;
-    origin_country?: string;
-    logo_path?: string;
+    original_name?: string;
+    popularity?: number;
+    profile_path?: string;
+    cast_id?: number;
+    character?: string;
+    credit_id?: string;
+    order: number;
 }
 
-export interface ProductionCountry {
+export interface Crew {
+    adult?: boolean;
+    gender?: number;
+    id: number;
+    known_for_department?: string;
+    name?: string;
+    original_name?: string;
+    popularity?: number;
+    profile_path?: string;
+    credit_id?: string;
+    department?: string;
+    job?: string;
+}
+
+export interface Country {
     name: string;
     iso_3166_1: string;
 }
+
+export interface ReleaseDate {
+    certification?: string;
+    descriptors?: Array<string>;
+    iso_639_1?: string;
+    note?: string;
+    release_date: string;
+    type: number;
+}
+
+// Collection
 
 export interface CollectionOverview {
     id: number;
@@ -38,6 +73,8 @@ export interface CollectionDetails {
     backdrop_path?: string;
     parts: Array<MovieOverview>;
 }
+
+// Movie
 
 export interface MovieOverview {
     adult?: boolean;
@@ -71,8 +108,8 @@ export interface MovieDetails {
     original_title?: string;
     overview?: string;
     popularity?: number;
-    production_companies?: Array<ProductionCompany>;
-    production_countries?: Array<ProductionCountry>;
+    production_companies?: Array<MovieProductionCompany>;
+    production_countries?: Array<Country>;
     release_date?: string;
     revenue?: number;
     runtime?: number;
@@ -85,43 +122,14 @@ export interface MovieDetails {
     vote_count?: number;
 }
 
-export interface ReleaseDate {
-    certification?: string;
-    descriptors?: Array<string>;
-    iso_639_1?: string;
-    note?: string;
-    release_date: string;
-    type: number;
+export interface MovieProductionCompany {
+    id: number;
+    name?: string;
+    origin_country?: string;
+    logo_path?: string;
 }
 
-export interface Cast {
-    adult?: boolean;
-    gender?: number;
-    id: number;
-    known_for_department?: string;
-    name?: string;
-    original_name?: string;
-    popularity?: number;
-    profile_path?: string;
-    cast_id?: number;
-    character?: string;
-    credit_id?: string;
-    order: number;
-}
-
-export interface Crew {
-    adult?: boolean;
-    gender?: number;
-    id: number;
-    known_for_department?: string;
-    name?: string;
-    original_name?: string;
-    popularity?: number;
-    profile_path?: string;
-    credit_id?: string;
-    department?: string;
-    job?: string;
-}
+// TV Series
 
 export interface TvSeriesOverview {
     adult?: boolean;
