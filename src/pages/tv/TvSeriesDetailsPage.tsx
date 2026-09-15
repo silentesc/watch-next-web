@@ -8,6 +8,7 @@ import { Poster } from "./ui/Poster";
 import { Recommendations } from "./ui/Recommendations";
 import { Similar } from "./ui/Similar";
 import { useTvSeriesDetails } from "../../hooks/use_tv_series_details";
+import { Seasons } from "./ui/Seasons";
 
 export function TvSeriesDetailsPage() {
     const { id } = useParams();
@@ -69,6 +70,7 @@ export function TvSeriesDetailsPage() {
                         <div className="lg:hidden">
                             <DetailsTable tvSeriesDetails={tvSeriesDetailsQuery.data} />
                         </div>
+                        <Seasons tvSeriesDetails={tvSeriesDetailsQuery.data} />
                     </div>
 
                     {/* Side info on the side */}
