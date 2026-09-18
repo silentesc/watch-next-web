@@ -13,7 +13,7 @@ export const getRolesString = (cast: AggregateCast) => {
     if (!cast.roles) {
         return "";
     }
-    return cast.roles.map(r => r.character).join(", ")
+    return cast.roles.map(r => r.character).filter(c => c).join(", ");
 }
 
 export function AggregateCast({ tvSeriesId }: AggregateCastProps) {

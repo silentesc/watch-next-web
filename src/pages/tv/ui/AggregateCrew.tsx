@@ -13,7 +13,7 @@ export const getJobsString = (crew: AggregateCrew) => {
     if (!crew.jobs) {
         return "";
     }
-    return crew.jobs.map(j => j.job).join(", ")
+    return crew.jobs.map(j => j.job).filter(j => j).join(", ")
 }
 
 export function AggregateCrew({ tvSeriesId }: AggregateCrewProps) {
