@@ -13,6 +13,13 @@ import { RecommendationsPage } from "../pages/movie/RecommendationsPage";
 import { SimilarPage } from "../pages/movie/SimilarPage";
 import { CollectionDetailsPage } from "../pages/collection/CollectionDetailsPage";
 import { TrendingMoviePage } from "../pages/discover/TrendingMoviePage";
+import { DiscoverTvSeriesPage } from "../pages/discover/DiscoverTvSeriesPage";
+import { TrendingTvSeriesPage } from "../pages/discover/TrendingTvSeriesPage";
+import { TvSeriesDetailsPage } from "../pages/tv/TvSeriesDetailsPage";
+import { TvSeriesRecommendationsPage } from "../pages/tv/TvSeriesRecommendationsPage";
+import { TvSeriesSimilarPage } from "../pages/tv/TvSeriesSimilarPage";
+import { AggregateCastPage } from "../pages/tv/AggregateCastPage";
+import { AggregateCrewPage } from "../pages/tv/AggregateCrewPage";
 
 export const router = createBrowserRouter([
     {
@@ -27,10 +34,12 @@ export const router = createBrowserRouter([
                 children: [
                     { index: true, Component: DiscoverPage },
                     { path: "movie", Component: DiscoverMoviePage },
+                    { path: "tv", Component: DiscoverTvSeriesPage },
                     {
                         path: "trending",
                         children: [
                             { path: "movie/:timeWindow", Component: TrendingMoviePage },
+                            { path: "tv/:timeWindow", Component: TrendingTvSeriesPage },
                         ]
                     },
                 ]
@@ -43,6 +52,16 @@ export const router = createBrowserRouter([
                     { path: "cast", Component: CastPage },
                     { path: "recommendations", Component: RecommendationsPage },
                     { path: "similar", Component: SimilarPage },
+                ]
+            },
+            {
+                path: "/tv/:id",
+                children: [
+                    { index: true, Component: TvSeriesDetailsPage },
+                    { path: "aggregate_crew", Component: AggregateCrewPage },
+                    { path: "aggregate_cast", Component: AggregateCastPage },
+                    { path: "recommendations", Component: TvSeriesRecommendationsPage },
+                    { path: "similar", Component: TvSeriesSimilarPage },
                 ]
             },
             { path: "search", Component: SearchPage },

@@ -5,12 +5,15 @@ import { useEffect, useState } from "react";
 import { useSearchMovie } from "../../hooks/use_search_movie";
 import { CollectionList } from "../../components/ui/CollectionList";
 import { useSearchCollection } from "../../hooks/use_search_collection";
+import { useSearchTvSeries } from "../../hooks/use_search_tv_series";
+import { TvSeriesList } from "../../components/ui/TvSeriesList";
 
 export function SearchPage() {
     const [queryParams, setQueryParams] = useSearchParams();
 
     const categories = new Map([
         ["movies", "Movies"],
+        ["tv_series", "TV Series"],
         ["collections", "Collections"],
     ]);
 
@@ -20,6 +23,7 @@ export function SearchPage() {
     let [tmpText, setTmpText] = useState(text);
 
     const searchMovieInfiniteQuery = useSearchMovie(category, text);
+    const searchTvSeriesInfiniteQuery = useSearchTvSeries(category, text);
     const searchCollectionInfiniteQuery = useSearchCollection(category, text);
 
     const onSearch = () => {
@@ -36,6 +40,7 @@ export function SearchPage() {
 
         switch (category) {
             case "movies": return <MovieList infiniteQuery={searchMovieInfiniteQuery} />;
+            case "tv_series": return <TvSeriesList infiniteQuery={searchTvSeriesInfiniteQuery} />;
             case "collections": return <CollectionList infiniteQuery={searchCollectionInfiniteQuery} />;
             default: return <span className="text-2xl">Category {category} not found</span>;
         }

@@ -33,7 +33,7 @@ export function Movie({ movie }: MovieProps) {
                 <a href={`/movie/${movie.id}`} onClick={onPosterClick}>
                     {
                         movie.poster_path ? (
-                            <img className="rounded-t-md w-full h-full object-cover" src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`} alt={movie.title} />
+                            <img className="rounded-t-md w-full h-full object-cover" src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt={movie.title} />
                         ) : (
                             <div className="h-full flex items-center justify-center">
                                 <img className="rounded-t-md object-cover grayscale opacity-30" src="/sad_logo.png" alt={movie.title} />
