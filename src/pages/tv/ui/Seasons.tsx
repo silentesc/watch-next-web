@@ -8,9 +8,13 @@ interface SeasonsProps {
 }
 
 export function Seasons({ tvSeriesDetails }: SeasonsProps) {
+    const id = tvSeriesDetails.id;
     const seasons = tvSeriesDetails.seasons;
     const [isExpanded, setIsExpanded] = useState(false);
 
+    if (!id) {
+        return null;
+    }
     if (!seasons?.length) {
         return null;
     }
@@ -33,7 +37,7 @@ export function Seasons({ tvSeriesDetails }: SeasonsProps) {
                                 : undefined
                         }
                     >
-                        <TvSeason tvSeason={season} />
+                        <TvSeason tvSeriesId={id} tvSeason={season} canExpandEpisodes={isExpanded} />
                     </div>
                 ))}
             </div>
