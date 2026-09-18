@@ -10,7 +10,6 @@ interface SeasonsProps {
 export function Seasons({ tvSeriesDetails }: SeasonsProps) {
     const id = tvSeriesDetails.id;
     const seasons = tvSeriesDetails.seasons;
-    const [isExpanded, setIsExpanded] = useState(false);
 
     if (!id) {
         return null;
@@ -18,6 +17,8 @@ export function Seasons({ tvSeriesDetails }: SeasonsProps) {
     if (!seasons?.length) {
         return null;
     }
+
+    const [isExpanded, setIsExpanded] = useState(seasons.length <= 1 ? true : false);
 
     const orderedSeasons = [...seasons].reverse();
     const visibleSeasons = isExpanded ? orderedSeasons : orderedSeasons.slice(0, 1);
