@@ -9,6 +9,8 @@ import { Recommendations } from "./ui/Recommendations";
 import { Similar } from "./ui/Similar";
 import { useTvSeriesDetails } from "../../hooks/use_tv_series_details";
 import { Seasons } from "./ui/Seasons";
+import { AggregateCast } from "./ui/AggregateCast";
+import { AggregateCrew } from "./ui/AggregateCrew";
 
 export function TvSeriesDetailsPage() {
     const { id } = useParams();
@@ -79,6 +81,8 @@ export function TvSeriesDetailsPage() {
                     </div>
                 </div>
 
+                <AggregateCast tvSeriesId={tvSeriesId} />
+                <AggregateCrew tvSeriesId={tvSeriesId} />
                 <Recommendations tvSeriesId={tvSeriesId} />
                 <Similar tvSeriesId={tvSeriesId} />
             </div>

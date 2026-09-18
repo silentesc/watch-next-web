@@ -18,6 +18,8 @@ import { TrendingTvSeriesPage } from "../pages/discover/TrendingTvSeriesPage";
 import { TvSeriesDetailsPage } from "../pages/tv/TvSeriesDetailsPage";
 import { TvSeriesRecommendationsPage } from "../pages/tv/TvSeriesRecommendationsPage";
 import { TvSeriesSimilarPage } from "../pages/tv/TvSeriesSimilarPage";
+import { AggregateCastPage } from "../pages/tv/AggregateCastPage";
+import { AggregateCrewPage } from "../pages/tv/AggregateCrewPage";
 
 export const router = createBrowserRouter([
     {
@@ -56,6 +58,8 @@ export const router = createBrowserRouter([
                 path: "/tv/:id",
                 children: [
                     { index: true, Component: TvSeriesDetailsPage },
+                    { path: "aggregate_crew", Component: AggregateCrewPage },
+                    { path: "aggregate_cast", Component: AggregateCastPage },
                     { path: "recommendations", Component: TvSeriesRecommendationsPage },
                     { path: "similar", Component: TvSeriesSimilarPage },
                 ]

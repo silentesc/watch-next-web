@@ -206,6 +206,46 @@ export interface TvSeriesProductionCompany {
     origin_country?: string;
 }
 
+export interface AggregateCast {
+    adult?: boolean;
+    gender?: number;
+    id?: number;
+    known_for_department?: string;
+    name?: string;
+    original_name?: string;
+    popularity?: number;
+    profile_path?: string;
+    roles?: Array<AggregateCastRole>;
+    total_episode_count?: number;
+    order?: number;
+}
+
+export interface AggregateCastRole {
+    credit_id?: string;
+    character?: string;
+    episode_count?: number;
+}
+
+export interface AggregateCrew {
+    adult?: boolean;
+    gender?: number;
+    id?: number;
+    known_for_department?: string;
+    name?: string;
+    original_name?: string;
+    popularity?: number;
+    profile_path?: string;
+    jobs?: Array<AggregateCrewJob>;
+    department?: string;
+    total_episode_count?: number;
+}
+
+export interface AggregateCrewJob {
+    credit_id?: string;
+    job?: string;
+    episode_count?: number;
+}
+
 // TV Season
 
 export interface TvSeasonOverview {
