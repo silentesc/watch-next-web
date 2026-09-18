@@ -1,5 +1,6 @@
 import type { TvSeriesDetails } from "../../../api/models";
 import { useLanguages } from "../../../hooks/use_languages";
+import { formatDate } from "../../../shared/dateFormatter";
 
 interface DetailsTableProps {
     tvSeriesDetails: TvSeriesDetails;
@@ -8,14 +9,6 @@ interface DetailsTableProps {
 export function DetailsTable({ tvSeriesDetails }: DetailsTableProps) {
     const languagesQuery = useLanguages();
     const languagesValues: Map<string, string> = new Map([...(languagesQuery.data?.map(language => [language.iso_639_1, language.english_name] as const) ?? [])]);
-
-    const formatDate = (d: string) => {
-        return new Date(d).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        });
-    }
 
     const formatAvgRuntime = (minutes: Array<number>) => {
         if (minutes.length <= 0) return "N/A";

@@ -4,6 +4,8 @@ import { getMovieReleaseDates } from "../../../api/movie/release_dates";
 import { Loading } from "../../../components/ui/Loading";
 import { Error } from "../../../components/ui/Error";
 import { useLanguages } from "../../../hooks/use_languages";
+import { formatDate } from "../../../shared/dateFormatter";
+import { formatCurrency } from "../../../shared/currencyFormatter";
 
 interface DetailsTableProps {
     movieDetails: MovieDetails;
@@ -75,19 +77,6 @@ export function DetailsTable({ movieDetails }: DetailsTableProps) {
         }
     }
 
-    const formatDate = (d: string) => {
-        return new Date(d).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        });
-    }
-
-    const formatCurrency = (value: number | undefined) => {
-        if (!value) return "N/A";
-        return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
-    };
-
     return (
         <div className="bg-background-secondary/50 border-2 border-background-tertiary rounded-md divide-y-2 divide-background-tertiary">
             <div className="flex gap-6 px-6 py-2">
@@ -139,11 +128,11 @@ export function DetailsTable({ movieDetails }: DetailsTableProps) {
             </div>
             <div className="flex gap-4 justify-between px-4 py-2">
                 <span className="font-semibold">Budget</span>
-                <span>{movieDetails.budget ? formatCurrency(movieDetails.budget) : "-"}</span>
+                <span>{movieDetails.budget ? formatCurrency(movieDetails.budget, {currency: "USD", maximumFractionDigits: 0}) : "-"}</span>
             </div>
             <div className="flex gap-4 justify-between px-4 py-2">
                 <span className="font-semibold">Revenue</span>
-                <span>{movieDetails.revenue ? formatCurrency(movieDetails.revenue) : "-"}</span>
+                <span>{movieDetails.revenue ? formatCurrency(movieDetails.revenue, {currency: "USD", maximumFractionDigits: 0}) : "-"}</span>
             </div>
             <div className="flex gap-4 justify-between px-4 py-2">
                 <span className="font-semibold">Original Language</span>
